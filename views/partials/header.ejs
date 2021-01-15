@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- font-awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <title>QnA</title>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <nav class="navbar fixed-top navbar-expand-lg bg-steel">
+            <div class="container">
+                <a class="navbar-brand text-light" href="/">Brandname</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About</a>
+                        </li>
+                        <% if (user === "HarshitSP") { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/askquestion">Ask Question</a>
+                            </li>
+                            <% } %>
+                    </ul>
+                    <form class="form-inline mt-2 mt-lg-0">
+                        <input class="form-control mr-sm-2 btn-sm" type="search" placeholder="Search">
+                        <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+                    </form>
+                    <ul class="navbar-nav mt-2 mt-lg-0">
+                        <% isAdmin = true %>
+                            <% if (user == "HarshitSP" && isAdmin == true) {%>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/addcategory">Admin Page</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/profile">Profile</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Logout</a></li>
+                                <% } else if (user === "HarshitSP") { %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/profile">Profile</a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Logout</a></li>
+                                    <% } else { %>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/login">Login</a></li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/register">Register</a></li>
+                                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
