@@ -1,10 +1,5 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-
-const app = express();
-app.set("view engine", "ejs");
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
+const router = express.Router();
 
 var user = "HarshitSP";
 
@@ -90,10 +85,7 @@ var cat = [
     "Politics",
 ];
 
-// const indexRouter = require("./routes/index");
-// app.use("/", indexRouter);
-
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
     res.render("home", {
         questions: questions,
         user: user,
@@ -101,72 +93,16 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/login", (req, res) => {
+router.get("/login", (req, res) => {
     res.render("login");
 });
 
-app.get("/register", (req, res) => {
+router.get("/register", (req, res) => {
     res.render("register");
 });
 
-app.get("/about", (req, res) => {
+router.get("/about", (req, res) => {
     res.render("about", { user: user });
 });
 
-app.get("/question/:id", (req, res) => {
-    const reqId = req.params.id;
-    var question;
-
-    questions.forEach((ques) => {
-        if (ques.id == reqId) {
-            question = ques;
-        }
-    });
-    res.render("question", { question: question, user: user });
-});
-
-app.post("/", (req, res) => {
-    console.log(req.body);
-});
-
-app.get("/comments", (req, res) => {
-    res.render("comments");
-});
-
-app.get("/askquestion", (req, res) => {
-    res.render("askques", { user: user });
-});
-
-app.get("/answer/:id", (req, res) => {
-    var reqId = req.params.id;
-    var question;
-
-    questions.forEach((ques) => {
-        if (ques.id == reqId) {
-            question = ques;
-        }
-    });
-
-    res.render("answer", { question: question, user: user });
-});
-
-app.get("/question/report/:id", (req, res) => {
-    res.render("report", { user: user });
-});
-
-app.get("/profile", (req, res) => {
-    var userdata = {
-        username: "HarshitSP",
-        email: "harshitsp@email.com",
-        skills: ["Node JS", "CSS", "MongoDB"],
-        img: "/media/default_profile.jpg",
-    };
-
-    res.render("profile", { userdata: userdata, user: user, cat: cat });
-});
-
-app.get("/addcategory", (req, res) => {
-    res.render("adminpage", { user: user, cat: cat });
-});
-
-app.listen(3000, () => console.log("Server is up and running on port 3000."));
+module.exports = router;
