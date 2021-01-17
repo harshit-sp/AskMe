@@ -28,6 +28,11 @@ ul {
     margin: 0;
 }
 
+
+/* .bg-steel {
+    background-color: #5f788a;
+} */
+
 .bg-steel {
     background-color: #5f788a;
 }
@@ -125,7 +130,7 @@ a.article-title:hover {
 
 .logindesign {
     margin: auto;
-    max-width: 400px;
+    max-width: 600px;
 }
 
 a:hover {
