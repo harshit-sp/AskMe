@@ -5,7 +5,7 @@ html {
 body {
     background: #fafafa;
     color: #333333;
-    margin-top: 5rem;
+    margin-top: 5.5rem;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -28,9 +28,17 @@ ul {
     margin: 0;
 }
 
+.brandname {
+    font-weight:700;
+    font-size: x-large;
+}
+
+.navbar {
+    padding: 10px 0px;
+}
 
 .bg-blue {
-    background-color: #5f788a;
+    background-color: #51adef;
 }
 
 .bg-green {
@@ -63,6 +71,11 @@ ul {
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
+}
+
+a.content-section:hover {
+    color: #428bca;
+    text-decoration: none;
 }
 
 .article-title {
@@ -143,6 +156,7 @@ a.article-title:hover {
 
 a:hover {
     text-decoration: none;
+    color: #333;
 }
 
 .category-section button:hover {
@@ -174,4 +188,10 @@ a:hover {
 
 li {
     list-style: none;
+}
+
+.lbtn {
+    background-color: transparent;
+    padding: 10px 0px;
+    /* color: #34ed43; */
 }

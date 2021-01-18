@@ -4,10 +4,11 @@ const categorySchema = require("./Category");
 const questionSchema = new mongoose.Schema({
 	ques: String,
 	postedby: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-	postedDate: Date.now,
+	owner: String,
+	postedDate: { type: Date, default: Date.now },
 	ansId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Answer" }],
-	category: categorySchema.categorySchema,
+	category: String,
 });
 
-const Question = mongoose.Schema("Question", questionSchema);
+const Question = mongoose.model("Question", questionSchema);
 module.exports = Question;

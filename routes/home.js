@@ -1,9 +1,11 @@
+// Imports
 const express = require("express");
 const router = express.Router();
 const validator = require("validator");
-const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+
+// For storing images
 const path = require("path");
 const multer = require("multer");
 const uploadPath = path.join("public", "uploads/profilepics");
@@ -17,109 +19,19 @@ const upload = multer({
 });
 
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
+
+// Models
 const Category = require("../models/Category");
+const User = require("../models/User");
+const Question = require("../models/Question");
 
-var user = "HarshitsP";
-
-questions = [
-	{
-		id: 1,
-		postedBy: "HarshitSP",
-		date: new Date("January 1, 2021 03:24:00"),
-		question: "How can I implement 'read more' in my webpage?",
-		answer: [
-			{
-				id: 1,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 2,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-			{
-				id: 3,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 4,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-		],
-	},
-	{
-		id: 2,
-		postedBy: "John Doe",
-		date: new Date("January 11, 2021 03:24:00"),
-		question: "How do I find the date of the Webpage?",
-		answer: [
-			{
-				id: 1,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 2,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-		],
-	},
-	{
-		id: 3,
-		postedBy: "CoreyMS",
-		date: new Date("January 5, 2021 03:24:00"),
-		question: "How do I add text to my existing webpage?",
-		answer: [
-			{
-				id: 1,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 2,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-		],
-	},
-];
-
-var cat = [
-	"Business",
-	"Finance",
-	"Technology",
-	"Mechanical",
-	"Android",
-	"iOS",
-	"News",
-	"Politics",
-];
-
-router.get("/", (req, res) => {
-	// console.log(req.user);
+router.get("/", async (req, res) => {
+	const questions = await Question.find({});
+	// console.log(questions);
+	const categories = await Category.find({});
 	res.render("home", {
 		questions: questions,
-		category: "Technology",
+		categories: categories,
 		title: null,
 	});
 });
@@ -281,5 +193,45 @@ router.post(
 		res.redirect("/profile");
 	}
 );
+
+router.get("/askquestion", ensureAuthenticated, async (req, res) => {
+	const categories = await Category.find({});
+	res.render("askques", { categories: categories, title: "Post Question" });
+});
+
+router.post("/askquestion", async (req, res) => {
+	// console.log(req.body);
+	const { question, tags, categoryid } = req.body;
+	var tag = tags.split(",").map((item) => item.trim());
+
+	// console.log({ question, tags, categoryid });
+	const cat = await Category.find({ _id: categoryid });
+	// console.log("cat", cat[0].categoryName);
+
+	// Inserting Question to the database.
+	const newques = new Question({
+		ques: question,
+		postedby: req.user._id,
+		category: cat[0].categoryName,
+		owner: req.user.username,
+	});
+
+	await newques.save();
+
+	Category.findOneAndUpdate(
+		{ _id: categoryid },
+		{ $addToSet: { tags: { $each: tag } } },
+		(err, success) => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log(success);
+			}
+		}
+	);
+
+	req.flash("success_msg", "Your question is posted successfully");
+	res.redirect("/");
+});
 
 module.exports = router;

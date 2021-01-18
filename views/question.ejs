@@ -8,13 +8,13 @@
                     <div class="media-body">
                         <div class="article-metadata">
                             <a class="mr-2" href="#">
-                                <%= question.postedBy %>
+                                <%= question.owner %>
                             </a>
-                            <small class="text-muted"><%= question.date %></small>
+                            <small class="text-muted"><%= question.postedDate %></small>
                         </div>
                         <h2>
-                            <p class="article-title" href="/question/<%=question.id %>">
-                                <%= question.question %>
+                            <p class="article-title" href="/question/<%=question._id %>">
+                                <%= question.ques %>
                             </p>
                         </h2>
                     </div>
@@ -25,7 +25,7 @@
 
 
                 <hr>
-                <% question.answer.forEach(answer => { %>
+                <% question.ansId.forEach(answer => { %>
                     <div class="content-section">
 
                         <article class="media">
@@ -95,14 +95,14 @@
 
 
             <div class="col-md-3">
-                <div class="content-section category-section">
+                <div class="content-section">
                     <h4>Related Questions</h4>
                     <hr>
-                    <form action="/" method="POST">
+                    <!-- <form action="/" method="POST"> -->
                         <% ques = "How can I implement 'read more' in my webpage? How can I implement 'read more' in my webpage?" %>
-                            <button style="width: 100%;" class="btn btn-link"><%= ques.substring(0,35) + " ..."  %></button><br>
-                            <button style="width: 100%;" class="btn btn-link"><%= ques.substring(0,35) + " ..."  %></button><br>
-                    </form>
+                            <a href="#" style="width: 100%;" class="btn-link"><%= ques.substring(0,25) + " ..."  %></a>
+                            <a href="#" style="width: 100%;" class="btn-link"><%= ques.substring(0,25) + " ..."  %></a><br>
+                    <!-- </form> -->
                 </div>
             </div>
 

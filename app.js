@@ -55,7 +55,8 @@ app.use("/", indexRouter);
 const adminRouter = require("./routes/admin");
 app.use("/admin", adminRouter);
 
-var user = "HarsitSP";
+const questionRouter = require("./routes/question");
+app.use("/question", questionRouter);
 
 questions = [
 	{
@@ -140,17 +141,6 @@ questions = [
 	},
 ];
 
-var cat = [
-	"Business",
-	"Finance",
-	"Technology",
-	"Mechanical",
-	"Android",
-	"iOS",
-	"News",
-	"Politics",
-];
-
 // app.get("/", (req, res) => {
 //     res.render("home", {
 //         questions: questions,
@@ -171,17 +161,17 @@ var cat = [
 //     res.render("about", { user: user });
 // });
 
-app.get("/question/:id", (req, res) => {
-	const reqId = req.params.id;
-	var question;
+// app.get("/question/:id", (req, res) => {
+// 	const reqId = req.params.id;
+// 	var question;
 
-	questions.forEach((ques) => {
-		if (ques.id == reqId) {
-			question = ques;
-		}
-	});
-	res.render("question", { question: question, title: null });
-});
+// 	questions.forEach((ques) => {
+// 		if (ques.id == reqId) {
+// 			question = ques;
+// 		}
+// 	});
+// 	res.render("question", { question: question, title: null });
+// });
 
 // app.post("/", (req, res) => {
 // 	console.log(req.body);
@@ -191,10 +181,10 @@ app.get("/comments", (req, res) => {
 	res.render("comments");
 });
 
-app.get("/askquestion", async (req, res) => {
-	const categories = await Category.find({});
-	res.render("askques", { categories: categories, title: "Post Question" });
-});
+// app.get("/askquestion", async (req, res) => {
+// 	const categories = await Category.find({});
+// 	res.render("askques", { categories: categories, title: "Post Question" });
+// });
 
 app.get("/answer/:id", (req, res) => {
 	var reqId = req.params.id;
