@@ -29,9 +29,17 @@ ul {
 }
 
 
-/* .bg-steel {
+.bg-blue {
     background-color: #5f788a;
-} */
+}
+
+.bg-green {
+    background-color: #34ed43;
+}
+
+.bg-red {
+    background-color: #ef5151;
+}
 
 .bg-steel {
     background-color: #5f788a;

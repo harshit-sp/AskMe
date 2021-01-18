@@ -114,10 +114,12 @@ async function renderAdminPage(req, res, hasError = false, errors = null) {
 		res.render("adminpage", {
 			cat: cat,
 			errors,
+			title: "Admin",
 		});
 	} else {
 		res.render("adminpage", {
 			cat: cat,
+			title: "Admin",
 		});
 	}
 }

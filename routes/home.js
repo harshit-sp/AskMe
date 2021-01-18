@@ -120,6 +120,7 @@ router.get("/", (req, res) => {
 	res.render("home", {
 		questions: questions,
 		category: "Technology",
+		title: null,
 	});
 });
 
@@ -208,13 +209,13 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/about", (req, res) => {
-	res.render("about", { user: user });
+	res.render("about", { title: "About Us" });
 });
 
 router.get("/profile", ensureAuthenticated, async (req, res) => {
 	const userdata = await User.findOne({ _id: req.user._id });
 	const cat = await Category.find({});
-	res.render("profile", { userdata: userdata, cat: cat });
+	res.render("profile", { userdata: userdata, cat: cat, title: "Profile" });
 });
 
 router.post(

@@ -5,6 +5,8 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 
+const Category = require("./models/Category");
+
 const app = express();
 
 const passportConfig = require("./config/passport");
@@ -178,7 +180,7 @@ app.get("/question/:id", (req, res) => {
 			question = ques;
 		}
 	});
-	res.render("question", { question: question, user: user });
+	res.render("question", { question: question, title: null });
 });
 
 // app.post("/", (req, res) => {
@@ -189,8 +191,9 @@ app.get("/comments", (req, res) => {
 	res.render("comments");
 });
 
-app.get("/askquestion", (req, res) => {
-	res.render("askques", { user: user });
+app.get("/askquestion", async (req, res) => {
+	const categories = await Category.find({});
+	res.render("askques", { categories: categories, title: "Post Question" });
 });
 
 app.get("/answer/:id", (req, res) => {
@@ -203,11 +206,11 @@ app.get("/answer/:id", (req, res) => {
 		}
 	});
 
-	res.render("answer", { question: question, user: user });
+	res.render("answer", { question: question, title: "Answer Page" });
 });
 
 app.get("/question/report/:id", (req, res) => {
-	res.render("report", { user: user });
+	res.render("report", { title: "Report" });
 });
 
 app.listen(3000, () => console.log("Server is up and running on port 3000."));

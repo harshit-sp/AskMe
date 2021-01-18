@@ -10,3 +10,23 @@ function commentToogle(num) {
 }
 
 $(".toast").toast("show");
+
+function toggle(x) {
+	x.classList.toggle("fas");
+}
+
+var clicked = true;
+$(document).ready(function () {
+	$("#like").click(function () {
+		console.log();
+		if (clicked) {
+			$("#ilike").addClass("fas");
+			$("#ilike").removeClass("far");
+			clicked = false;
+		} else {
+			$("#ilike").addClass("far");
+			$("#ilike").removeClass("fas");
+			clicked = true;
+		}
+	});
+});
