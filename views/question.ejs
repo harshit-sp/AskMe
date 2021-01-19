@@ -10,7 +10,8 @@
                             <a class="mr-2" href="#">
                                 <%= question.owner %>
                             </a>
-                            <small class="text-muted"><%= question.postedDate %></small>
+                            <% const options = { year: 'numeric', month: 'long', day: 'numeric' }; %>
+                            <small class="text-muted"><%= question.postedDate.toLocaleDateString("en-US", options) %></small>
                         </div>
                         <h2>
                             <p class="article-title" href="/question/<%=question._id %>">
@@ -21,26 +22,27 @@
 
                 </article><br>
 
-                <a class="btn btn-primary mybtn" href="/answer/<%= question.id %>">Answer</a>
+                <a class="btn bg-blue text-white mybtn" href="/question/answer/<%= question.id %>">Answer</a>
 
 
                 <hr>
-                <% question.ansId.forEach(answer => { %>
+                <% answers.forEach(answer => { %>
                     <div class="content-section">
 
                         <article class="media">
                             <img class="rounded-circle article-img" src="/media/default_profile.jpg">
                             <div class="media-body">
                                 <div class="article-metadata border-bottom">
-                                    <a class="mr-2" href="#">
-                                        <%= answer.answered_by %>
+                                    <a class="mr-2 text-primary">
+                                        <%= answer.answeredBy %>
                                     </a>
-                                    <small class="text-muted"><%= answer.answered_date %></small>
-
+                                    <% const options = { year: 'numeric', month: 'long', day: 'numeric' }; %>
+                                    <small class="text-muted"><%= answer.postedDate.toLocaleDateString("en-US", options) %></small>
                                 </div>
-                                <p>
-                                    <%= answer.answers %>
-                                </p>
+                                <p>Ratings: ⭐⭐⭐⭐⭐</p>
+                                <div>
+                                    <%- answer.answer %>
+                                </div>
                             </div>
                         </article>
                         <div class="row">
@@ -52,7 +54,7 @@
                             </div>
                             <div>
                                 <button onclick="commentToogle(this.name)" name="comment-section-<%= answer.id %>" class="mr-2 btn btn-link"><i class="comment-icons far fa-comment-alt"></i></button>
-                                <a class="float-right btn btn-sm mr-3 btn-danger" href="report/<%= answer.id %>">Report</a>
+                                <a class="float-right btn btn-sm mr-3 bg-red text-white" href="report/<%= answer.id %>">Report</a>
 
                             </div>
 
@@ -98,30 +100,17 @@
                 <div class="content-section">
                     <h4>Related Questions</h4>
                     <hr>
-                    <!-- <form action="/" method="POST"> -->
-                        <% ques = "How can I implement 'read more' in my webpage? How can I implement 'read more' in my webpage?" %>
-                            <a href="#" style="width: 100%;" class="btn-link"><%= ques.substring(0,25) + " ..."  %></a>
-                            <a href="#" style="width: 100%;" class="btn-link"><%= ques.substring(0,25) + " ..."  %></a><br>
-                    <!-- </form> -->
+
+                    <% rel_ques.forEach(rel => { %>
+                        <a href="/question/<%= rel._id %>" style="width: 100%;" class="btn"><%= rel.ques.substring(0,25) + " ..."  %></a>
+                    <% }) %>
+
                 </div>
             </div>
 
         </div>
 
 
-
+        <br>
     </main>
-
-    <!-- <script>
-        function commentToogle(num) {
-            console.log(num);
-            console.log("comment-section" + num);
-            var x = document.getElementById(num);
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-    </script> -->
     <%- include("partials/footer") -%>

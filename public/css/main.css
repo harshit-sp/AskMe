@@ -3,6 +3,7 @@ html {
 }
 
 body {
+    /* font-family: 'Montserrat', sans-serif; */
     background: #fafafa;
     color: #333333;
     margin-top: 5.5rem;
@@ -31,6 +32,7 @@ ul {
 .brandname {
     font-weight:700;
     font-size: x-large;
+    color: #333333;
 }
 
 .navbar {
@@ -49,16 +51,26 @@ ul {
     background-color: #ef5151;
 }
 
+.bg-purple {
+    background-color: #9900ff;
+}
+
 .bg-steel {
     background-color: #5f788a;
 }
 
+.bg-body {
+    background-color: #fafafa;
+}
+
 .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
+    /* color: #cbd5db; */
+    color: #444444;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
+    /* color: #ffffff; */
+    color: #51adef;
 }
 
 .site-header .navbar-nav .nav-link.active {
@@ -151,6 +163,11 @@ a.article-title:hover {
 
 .logindesign {
     margin: auto;
+    max-width: 400px;
+}
+
+.registerdesign {
+    margin: auto;
     max-width: 600px;
 }
 
@@ -164,7 +181,7 @@ a:hover {
 }
 
 .footer-section {
-    margin: auto;
+    /* margin: auto; */
     /* max-width: 600px; */
     /* text-align: center; */
     color: #ffffff;
@@ -172,7 +189,7 @@ a:hover {
 
 .footer-icon {
     color: #ffffff;
-    margin: 10px;
+    margin: 0px 10px;
     font-size: 20px;
 }
 
@@ -194,4 +211,20 @@ li {
     background-color: transparent;
     padding: 10px 0px;
     /* color: #34ed43; */
+}
+
+.border-r {
+    border-radius: 5px;
+}
+
+.border-c {
+    border-radius: 4px;
+}
+
+.cat-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    /* border-radius: 3px; */
+    margin-bottom: 20px;
 }

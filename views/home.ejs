@@ -6,13 +6,27 @@
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3">
-                <div class="category-section">
+                <br>
+                <br>
+                <hr>
+                <% icolors = ["#51adef", "#34ed43", "#ef5151"] %>
+                    <% ocolors = ["#257dbc", "#20ad2b", "#c62121"] %>
+                    <% var cc=0; %>
                     <% categories.forEach(category => { %>
-                        <div class="lbtn">
-                        <a href="/question/category/<%= category.categoryName %>"><%= category.categoryName %></a><br>
-                        </div>
-                    <% }); %>
-                </div>
+                        <% cc++; %>
+
+                        <!-- <div class="col-md-4"> -->
+                            <div style="padding-left: 0px; background-color: <%= ocolors[cc%3] %>;" class="col-md-12">
+                                <div style="padding-left: 0px; background-color: <%= icolors[cc%3] %>;" class="col-md-12 border-r">
+                                    <div class="col-md-12 cat-section text-center">
+                                        <a class="text-dark" href="/question/category/<%= category.categoryName %>"><%= category.categoryName %></a><br>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+                        <% }); %>
+
+
             </div>
 
             <div class="col-md-9">

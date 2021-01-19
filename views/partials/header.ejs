@@ -11,54 +11,58 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <title>QnA</title>
-    <script
-        type="text/javascript"
-        src='https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'
-        referrerpolicy="origin">
-    </script>
-    <script type="text/javascript">
-        tinymce.init({
-            selector: '#myTextarea',
-            plugins: [
-            'advlist autolink link image lists charmap print preview hr anchor pagebreak',
-            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-            'table emoticons template paste help'
-            ],
-            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-            'bullist numlist outdent indent | link image | print preview media fullpage | ' +
-            'forecolor backcolor emoticons | help',
-            menu: {
-            favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
-            },
-            menubar: 'favs file edit view insert format tools table help',
-            content_css: 'css/content.css'
-        });
-    </script>
+ <script
+    type="text/javascript"
+    src='https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'
+    referrerpolicy="origin">
+  </script>
+  <script type="text/javascript">
+  tinymce.init({
+    selector: '#myTextarea',
+    plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'table emoticons template paste help'
+    ],
+    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+      'bullist numlist outdent indent | link image | print preview media fullpage | ' +
+      'forecolor backcolor emoticons | help',
+    menu: {
+      favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
+    },
+    menubar: 'favs file edit view insert format tools table help',
+    content_css: 'css/content.css'
+  });
+  </script>
 </head>
 
 <body>
 
     <header class="site-header">
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-steel">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-body">
             <div class="container">
-                <a class="brandname navbar-brand text-light" href="/">QnA</a>
+                <a style="font-family: 'Fraunces', serif;" class="brandname mr-4 navbar-brand" href="/">ASK ME</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <div style="font-family: 'Montserrat', sans-serif;" class="collapse navbar-collapse" id="navbarTogglerDemo02">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/">HOME</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/about">About</a>
+                            <a class="nav-link" href="/about">ABOUT</a>
                         </li>
                         <% if (login) { %>
                             <li class="nav-item">
-                                <a class="nav-link" href="/askquestion">Ask Question</a>
+                                <a class="nav-link" href="/askquestion">ASK QUESTION</a>
                             </li>
                             <% } %>
                     </ul>
@@ -70,21 +74,21 @@
                             <!-- <% isAdmin=false %> -->
                             <% if (login && admin == true) {%>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/admin">Admin Page</a></li>
+                                    <a class="nav-link" href="/admin">ADMIN PAGE</a></li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/profile">Profile</a></li>
+                                    <a class="nav-link" href="/profile">PROFILE</a></li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/logout">Logout</a></li>
+                                    <a class="nav-link" href="/logout">LOGOUT</a></li>
                                 <% } else if (login) { %>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/profile">Profile</a></li>
+                                        <a class="nav-link" href="/profile">PROFILE</a></li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/logout">Logout</a></li>
+                                        <a class="nav-link" href="/logout">LOGOUT</a></li>
                                     <% } else { %>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="/login">Login</a></li>
+                                            <a class="nav-link" href="/login">LOGIN</a></li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="/register">Register</a></li>
+                                            <a class="nav-link" href="/register">REGISTER</a></li>
                                         <% } %>
                     </ul>
                 </div>

@@ -186,18 +186,18 @@ app.get("/comments", (req, res) => {
 // 	res.render("askques", { categories: categories, title: "Post Question" });
 // });
 
-app.get("/answer/:id", (req, res) => {
-	var reqId = req.params.id;
-	var question;
+// app.get("/answer/:id", (req, res) => {
+// 	var reqId = req.params.id;
+// 	var question;
 
-	questions.forEach((ques) => {
-		if (ques.id == reqId) {
-			question = ques;
-		}
-	});
+// 	questions.forEach((ques) => {
+// 		if (ques.id == reqId) {
+// 			question = ques;
+// 		}
+// 	});
 
-	res.render("answer", { question: question, title: "Answer Page" });
-});
+// 	res.render("answer", { question: question, title: "Answer Page" });
+// });
 
 app.get("/question/report/:id", (req, res) => {
 	res.render("report", { title: "Report" });
