@@ -8,18 +8,18 @@
             <div class="col-md-3">
                 <br>
                 <br>
-                <hr>
-                <% icolors = ["#51adef", "#34ed43", "#ef5151"] %>
-                    <% ocolors = ["#257dbc", "#20ad2b", "#c62121"] %>
+                <hr style="background-color: #f6f9fc;">
+                <% icolors = ["#34ed43", "#ef5151", "#626ee3", "#51adef"] %>
+                <% ocolors = ["#20ad2b", "#c62121", "#5c00e6", "#257dbc"] %>
                     <% var cc=0; %>
                     <% categories.forEach(category => { %>
                         <% cc++; %>
 
                         <!-- <div class="col-md-4"> -->
-                            <div style="padding-left: 0px; background-color: <%= ocolors[cc%3] %>;" class="col-md-12">
-                                <div style="padding-left: 0px; background-color: <%= icolors[cc%3] %>;" class="col-md-12 border-r">
+                            <div style="padding-left: 0px; background-color: <%= ocolors[cc%4] %>;" class="col-md-12">
+                                <div style="padding-left: 0px; background-color: <%= icolors[cc%4] %>;" class="col-md-12 border-r">
                                     <div class="col-md-12 cat-section text-center">
-                                        <a class="text-dark" href="/question/category/<%= category.categoryName %>"><%= category.categoryName %></a><br>
+                                        <a class="cat-font" href="/question/category/<%= category.categoryName %>"><%= category.categoryName %></a><br>
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +34,9 @@
                 <%- include("partials/toast") %>
                 <!-- Content -->
                 <h1 class="article-title">
-                    Questions
+                    <% if(category) { %>
+                        <%= category %>
+                    <% } %>
                 </h1>
                 <hr>
                 <% questions.forEach(question => { %>
@@ -42,17 +44,17 @@
                         <img class="rounded-circle article-img" src="/media/default_profile.jpg">
                         <div class="media-body">
                             <div class="article-metadata border-bottom">
-                                <a class="mr-2 text-primary">
+                                <a class="mr-2">
                                     <%= question.owner %>
                                 </a>
                                 <% const options = { year: 'numeric', month: 'long', day: 'numeric' }; %>
                                 <small class="text-muted"><%= question.postedDate.toLocaleDateString("en-US", options) %></small>
                             </div>
-                            <h4>
+                            <h5>
                                 <a class="article-title" href="/question/<%=question._id %>">
                                     <%= question.ques %>
                                 </a>
-                            </h4>
+                            </h5>
                         </div>
                     </article>
                     <% }) %>

@@ -13,10 +13,19 @@
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
 
+    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <title>QnA</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/media/favicon.ico">
+
+    <% if (title) { %>
+        <title>AskME - <%= title %> </title>
+    <% } else { %>
+        <title>AskME</title>
+    <% } %>
  <script
     type="text/javascript"
     src='https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'
@@ -45,24 +54,24 @@
 <body>
 
     <header class="site-header">
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-body">
+        <nav class="bg-nav navbar fixed-top navbar-expand-lg navbar-light bg-body">
             <div class="container">
-                <a style="font-family: 'Fraunces', serif;" class="brandname mr-4 navbar-brand" href="/">ASK ME</a>
+                <a class="brandname mr-4 navbar-brand" href="/">AskME</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div style="font-family: 'Montserrat', sans-serif;" class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">HOME</a>
+                            <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/about">ABOUT</a>
+                            <a class="nav-link" href="/about">About</a>
                         </li>
                         <% if (login) { %>
                             <li class="nav-item">
-                                <a class="nav-link" href="/askquestion">ASK QUESTION</a>
+                                <a class="nav-link" href="/askquestion">Ask Question</a>
                             </li>
                             <% } %>
                     </ul>
@@ -74,21 +83,21 @@
                             <!-- <% isAdmin=false %> -->
                             <% if (login && admin == true) {%>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/admin">ADMIN PAGE</a></li>
+                                    <a class="nav-link" href="/admin">Admin</a></li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/profile">PROFILE</a></li>
+                                    <a class="nav-link" href="/profile">Profile</a></li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/logout">LOGOUT</a></li>
+                                    <a class="nav-link" href="/logout">Logout</a></li>
                                 <% } else if (login) { %>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/profile">PROFILE</a></li>
+                                        <a class="nav-link" href="/profile">Profile</a></li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/logout">LOGOUT</a></li>
+                                        <a class="nav-link" href="/logout">Logout</a></li>
                                     <% } else { %>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="/login">LOGIN</a></li>
+                                            <a class="nav-link" href="/login">Login</a></li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="/register">REGISTER</a></li>
+                                            <a class="nav-link" href="/register">Register</a></li>
                                         <% } %>
                     </ul>
                 </div>

@@ -49,6 +49,7 @@ router.get("/category/:category", async (req, res) => {
 	res.render("home", {
 		questions: questions,
 		categories: categories,
+		category: reqCat,
 		title: null,
 	});
 });

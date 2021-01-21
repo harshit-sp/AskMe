@@ -31,6 +31,7 @@ router.get("/", async (req, res) => {
 	const categories = await Category.find({});
 	res.render("home", {
 		questions: questions,
+		category: "All",
 		categories: categories,
 		title: null,
 	});
@@ -118,10 +119,6 @@ router.get("/logout", (req, res) => {
 	req.logout();
 	req.flash("success_msg", "You are logged out");
 	res.redirect("/login");
-});
-
-router.get("/about", (req, res) => {
-	res.render("about", { title: "About Us" });
 });
 
 router.get("/profile", ensureAuthenticated, async (req, res) => {
@@ -232,6 +229,14 @@ router.post("/askquestion", async (req, res) => {
 
 	req.flash("success_msg", "Your question is posted successfully");
 	res.redirect("/");
+});
+
+router.get("/about", (req, res) => {
+	res.render("about", { title: "About Us" });
+});
+
+router.get("/contact", (req, res) => {
+	res.render("contact", { title: "Contact" });
 });
 
 module.exports = router;
