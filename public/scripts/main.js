@@ -9,6 +9,10 @@ function commentToogle(num) {
 	}
 }
 
+$(document).ready(function () {
+	$("body").tooltip({ selector: "[data-toggle=tooltip]" });
+});
+
 $(".toast").toast("show");
 
 function toggle(x) {

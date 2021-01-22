@@ -9,6 +9,7 @@ const Category = require("../models/Category");
 const User = require("../models/User");
 const Question = require("../models/Question");
 const Answer = require("../models/Answer");
+const Comment = require("../models/Comment");
 
 const {
 	ensureAuthenticated,
@@ -24,7 +25,7 @@ router.get("/:id", async (req, res) => {
 	// console.log(question);
 	const answers = await Answer.find({ _id: { $in: question.ansId } });
 	const rel_ques = await Question.find({ category: question.category });
-	console.log(rel_ques);
+	// console.log(rel_ques);
 	res.render("question", {
 		question: question,
 		answers: answers,
@@ -83,6 +84,25 @@ router.post("/answer", async (req, res) => {
 
 	// console.log(newAns);
 	res.redirect("/question/" + req.body.publish);
+});
+
+router.post("/answer/comments/:id", ensureAuthenticated, async (req, res) => {
+	// console.log(req.user.username);
+	const comment = new Comment({
+		commentedBy: req.user.username,
+		comment: req.body.comment,
+	});
+
+	// await comment.save();
+
+	// console.log(comment);
+
+	await Answer.findByIdAndUpdate(
+		{ _id: req.body.commentbtn },
+		{ $push: { comments: comment } }
+	);
+
+	res.redirect("/question/" + req.params.id);
 });
 
 module.exports = router;

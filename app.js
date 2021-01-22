@@ -177,9 +177,9 @@ questions = [
 // 	console.log(req.body);
 // });
 
-app.get("/comments", (req, res) => {
-	res.render("comments");
-});
+// app.get("/comments", (req, res) => {
+// 	res.render("comments");
+// });
 
 // app.get("/askquestion", async (req, res) => {
 // 	const categories = await Category.find({});

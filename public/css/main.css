@@ -79,6 +79,7 @@ ul {
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(50, 50, 93, .1);
 }
 
 /* a.content-section:hover {
@@ -277,7 +278,7 @@ a.foot-l:before {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #fff;
+    background-color: #626ee3;
     visibility: hidden;
     transform: scaleX(0);
     transition: all 0.3s ease-in-out;

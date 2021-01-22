@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema({
-	commentedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+	commentedBy: String,
 	comment: String,
 });
 
