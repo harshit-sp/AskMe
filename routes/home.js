@@ -24,6 +24,8 @@ const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
 const Category = require("../models/Category");
 const User = require("../models/User");
 const Question = require("../models/Question");
+const Image = require("../models/Image");
+const Answer = require("../models/Answer");
 
 router.get("/", async (req, res) => {
 	const questions = await Question.find({});
@@ -37,6 +39,7 @@ router.get("/", async (req, res) => {
 	});
 });
 
+// Login config
 router.get("/login", forwardAuthenticated, (req, res) => {
 	res.render("login");
 });
@@ -50,6 +53,7 @@ router.post("/login", (req, res, next) => {
 	})(req, res, next);
 });
 
+// Register config
 router.get("/register", forwardAuthenticated, (req, res) => {
 	res.render("register");
 });
@@ -93,6 +97,7 @@ router.post("/register", (req, res) => {
 				bcrypt.genSalt(10, (err, salt) => {
 					bcrypt.hash(password, salt, (err, hash) => {
 						if (err) throw err;
+
 						const newUser = new User({
 							username: username,
 							email: email,
@@ -100,7 +105,13 @@ router.post("/register", (req, res) => {
 						});
 						newUser
 							.save()
-							.then((user) => {
+							.then(async (user) => {
+								const i = new Image({ foruser: user._id });
+								i.save();
+								// console.log(user);
+								user.img = i;
+								// console.log(user);
+								await user.save();
 								req.flash(
 									"success_msg",
 									"You are now Registered and can Log In."
@@ -115,16 +126,44 @@ router.post("/register", (req, res) => {
 	}
 });
 
+// Logout config
 router.get("/logout", (req, res) => {
 	req.logout();
 	req.flash("success_msg", "You are logged out");
 	res.redirect("/login");
 });
 
+// Profile config
 router.get("/profile", ensureAuthenticated, async (req, res) => {
+	const ans = await Answer.find({ givenby: req.user._id });
+
+	console.log(ans);
+	let likes = 0;
+	let dislikes = 0;
+
+	ans.forEach((a) => {
+		likes += a.likes;
+		dislikes += a.dislikes;
+	});
+
+	console.log(likes);
+
+	await User.findOneAndUpdate(
+		{ _id: req.user._id },
+		{ $set: { totalLikes: likes, totaldisLikes: dislikes } }
+	);
+
 	const userdata = await User.findOne({ _id: req.user._id });
+	console.log(userdata);
 	const cat = await Category.find({});
-	res.render("profile", { userdata: userdata, cat: cat, title: "Profile" });
+	const img = await Image.findOne({ _id: userdata.img });
+
+	res.render("profile", {
+		userdata: userdata,
+		cat: cat,
+		title: "Profile",
+		img: img,
+	});
 });
 
 router.post(
@@ -138,10 +177,19 @@ router.post(
 		const { username, skills, interests, removebtn, skillbtn } = req.body;
 
 		if (filename) {
-			// console.log(filename);
-			await User.findByIdAndUpdate(
-				{ _id: req.user._id },
-				{ img: filename }
+			await Image.findOneAndUpdate(
+				{ _id: req.user.img._id },
+				{ imagefile: filename }
+			);
+
+			await Question.updateMany(
+				{ postedby: req.user._id },
+				{ userimg: filename }
+			);
+
+			await Answer.updateMany(
+				{ givenby: req.user._id },
+				{ userimg: filename }
 			);
 		}
 
@@ -191,6 +239,7 @@ router.post(
 	}
 );
 
+// Ask Question config
 router.get("/askquestion", ensureAuthenticated, async (req, res) => {
 	const categories = await Category.find({});
 	res.render("askques", { categories: categories, title: "Post Question" });
@@ -206,11 +255,13 @@ router.post("/askquestion", async (req, res) => {
 	// console.log("cat", cat[0].categoryName);
 
 	// Inserting Question to the database.
+	const img = await Image.findOne({ foruser: req.user._id });
 	const newques = new Question({
 		ques: question,
 		postedby: req.user._id,
 		category: cat[0].categoryName,
 		owner: req.user.username,
+		userimg: img.imagefile,
 	});
 
 	await newques.save();
@@ -227,14 +278,21 @@ router.post("/askquestion", async (req, res) => {
 		}
 	);
 
+	await User.findOneAndUpdate(
+		{ _id: req.user._id },
+		{ $inc: { quesPosted: 1 } }
+	);
+
 	req.flash("success_msg", "Your question is posted successfully");
 	res.redirect("/");
 });
 
+// About config
 router.get("/about", (req, res) => {
 	res.render("about", { title: "About Us" });
 });
 
+// Contact config
 router.get("/contact", (req, res) => {
 	res.render("contact", { title: "Contact" });
 });

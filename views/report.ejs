@@ -10,14 +10,14 @@
             </h4>
             <hr>
 
-            <form>
+            <form action="/question/report/<%= qid %>/<%= id %>" method="POST">
 
                 <div class="form-group">
                     <label for="postBody">Your Reason</label>
-                    <textarea class="form-control"></textarea>
+                    <textarea name="report" class="form-control"></textarea>
                 </div>
 
-                <button class="btn btn-danger" type="submit" name="button">Report</button>
+                <button class="btn bg-red text-white" type="submit" name="rbtn" value="<%= %>">Report</button>
             </form>
         </div>
 

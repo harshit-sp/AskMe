@@ -1,0 +1,32 @@
+<%- include("partials/header") %>
+
+  <main role="main">
+    <div class="container">
+      <h3>Manage Reports</h3>
+
+      <% answers.forEach(answer => { %>
+        <div class="content-section">
+          Answered By: <%- answer.answeredBy %><br>
+          Count: <%= answer.reportedCount %> <hr>
+          <button name="report-<%= answer._id %>" onclick="togglereport(this.name)" class="btn btn-sm bg-purple text-white">See reasons</button>
+
+          <form style="float: right;" action="/admin/delete/<%= answer._id %> " method="POST">
+            <button type="submit" class="btn bg-red btn-sm text-white">Delete</button>
+          </form>
+
+
+        </div>
+        <div style="display: none;" id="report-<%= answer._id  %>" class="mt-3 content-section">
+          <div class="container">
+            <% answer.reasons.forEach(reason => { %>
+              <div class="">
+                <%= reason.report %>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </main>
+
+  <%- include("partials/footer") %>

@@ -199,8 +199,8 @@ questions = [
 // 	res.render("answer", { question: question, title: "Answer Page" });
 // });
 
-app.get("/question/report/:id", (req, res) => {
-	res.render("report", { title: "Report" });
-});
+// app.get("/question/report/:id", (req, res) => {
+// 	res.render("report", { title: "Report" });
+// });
 
 app.listen(3000, () => console.log("Server is up and running on port 3000."));

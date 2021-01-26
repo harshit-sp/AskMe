@@ -2,9 +2,11 @@
 
     <main role="main" class="container">
         <div class="row">
+
             <div class="col-md-9 verticle-line">
+                <%- include("partials/messages") %>
                 <article class="media">
-                    <img class="rounded-circle article-img" src="/media/default_profile.jpg">
+                    <img class="rounded-circle article-img" src="/uploads/profilepics/<%= question.userimg %> ">
                     <div class="media-body">
                         <div class="article-metadata">
                             <a style="color: #626ee3;" class="mr-2">
@@ -30,7 +32,7 @@
                     <div class="content-section">
 
                         <article class="media">
-                            <img class="rounded-circle article-img" src="/media/default_profile.jpg">
+                            <img class="rounded-circle article-img" src="/uploads/profilepics/<%= answer.userimg %>">
                             <div class="media-body">
                                 <div class="article-metadata border-bottom">
                                     <a style="color: #626ee3;" class="mr-2">
@@ -39,7 +41,7 @@
                                     <% const options = { year: 'numeric', month: 'long', day: 'numeric' }; %>
                                     <small class="text-muted"><%= answer.postedDate.toLocaleDateString("en-US", options) %></small>
                                 </div>
-                                <p>Ratings: ⭐⭐⭐⭐⭐</p>
+                                <p>Ratings: 2.3/5</p>
                                 <div>
                                     <%- answer.answer %>
                                 </div>
@@ -47,17 +49,62 @@
                         </article><hr>
                         <div class="row">
                             <div class="col">
-                                <form>
+                                <!-- <form> -->
+                                    <% if(login) { %>
+                                        <% if (user.likedans.includes(answer._id)) { %>
+                                            <button data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>" onclick="f(this.name, 'like')"
+                                                class="btn trans">
+                                                <i id="ilike-<%= answer._id %>" class="comment-icons text-blue fas fa-thumbs-up mr-1"></i><span class="text-blue"
+                                                    id="like-<%= answer._id %>">
+                                                    <%= answer.likes %>
+                                                </span>
+                                            </button>
+                                        <% } else { %>
+                                            <button data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>"
+                                                onclick="f(this.name, 'l')" class="btn trans">
+                                                <i id="ilike-<%= answer._id %>" class="comment-icons text-blue far fa-thumbs-up mr-1"></i><span class="text-blue"
+                                                    id="like-<%= answer._id %>">
+                                                    <%= answer.likes %>
+                                                </span>
+                                            </button>
+                                        <% } %>
 
-                                    <button data-toggle="tooltip" data-placement="top" title="Upvote" class="btn trans" name="like" value="<%= answer._id %>">
-                                        <i class="comment-icons far fa-thumbs-up"></i> 0
-                                    </button>
-                                    <button data-toggle="tooltip" data-placement="top" title="Downvote" class="btn trans" name="dislike" value="<%= answer._id %>"><i id="dislike" class="comment-icons far fa-thumbs-down"></i> 0</button>
-                                </form>
+                                        <% if (user.dislikedans.includes(answer._id)) { %>
+                                            <button data-toggle="tooltip" data-placement="top" title="Downvote" class="btn trans" name="<%= answer._id %>"
+                                                onclick="fd(this.name, 'dislike')">
+                                                <i id="idislike-<%= answer._id %>" class="comment-icons text-red fas fa-thumbs-down mr-2"></i><span class="text-red"
+                                                    id="dislike-<%= answer._id %>">
+                                                    <%= answer.dislikes %>
+                                                </span>
+                                            </button>
+                                        <% } else { %>
+                                            <button data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>"
+                                                onclick="fd(this.name, 'd')" class="btn trans">
+                                                <i id="idislike-<%= answer._id %>" class="comment-icons text-red far fa-thumbs-down mr-1"></i><span
+                                                    class="text-red" id="dislike-<%= answer._id %>">
+                                                    <%= answer.dislikes %>
+                                                </span>
+                                            </button>
+                                        <% } %>
+                                    <% } else { %>
+                                        <button data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>" class="btn trans">
+                                            <i class="comment-icons text-blue far fa-thumbs-up mr-1"></i><span class="text-blue">
+                                                <%= answer.likes %>
+                                            </span>
+                                        </button>
+                                        <button data-toggle="tooltip" data-placement="top" title="Downvote" name="<%= answer._id %>"
+                                            class="btn trans">
+                                            <i class="comment-icons text-blue far fa-thumbs-down mr-1"></i><span class="text-blue">
+                                                <%= answer.dislikes %>
+                                            </span>
+                                        </button>
+                                    <% } %>
+
+                                <!-- </form> -->
                             </div>
                             <div>
                                 <button data-toggle="tooltip" data-placement="left" title="Comments" onclick="commentToogle(this.name)" name="comment-section-<%= answer._id %>" class="mr-2 btn trans"><i class="comment-icons far fa-comment-alt"></i></button>
-                                <a class="float-right btn btn-sm mr-3 bg-red text-white" href="report/<%= answer._id %>">Report</a>
+                                <a class="float-right btn btn-sm mr-3 bg-red text-white" href="report/<%= question._id %>/<%= answer._id %>">Report</a>
 
                             </div>
 
