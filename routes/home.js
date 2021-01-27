@@ -26,7 +26,9 @@ const User = require("../models/User");
 const Question = require("../models/Question");
 const Image = require("../models/Image");
 const Answer = require("../models/Answer");
+const { config } = require("process");
 
+// Home config
 router.get("/", async (req, res) => {
 	const questions = await Question.find({}).populate({
 		path: "postedby",
@@ -140,7 +142,7 @@ router.get("/logout", (req, res) => {
 router.get("/profile", ensureAuthenticated, async (req, res) => {
 	const ans = await Answer.find({ givenby: req.user._id });
 
-	console.log(ans);
+	// console.log(ans);
 	let likes = 0;
 	let dislikes = 0;
 
@@ -149,23 +151,23 @@ router.get("/profile", ensureAuthenticated, async (req, res) => {
 		dislikes += a.dislikes;
 	});
 
-	console.log(likes);
+	// console.log(likes);
 
 	await User.findOneAndUpdate(
 		{ _id: req.user._id },
 		{ $set: { totalLikes: likes, totaldisLikes: dislikes } }
 	);
 
-	const userdata = await User.findOne({ _id: req.user._id });
-	console.log(userdata);
+	const userdata = await User.findOne({ _id: req.user._id }).populate("img");
+	// console.log(userdata);
 	const cat = await Category.find({});
-	const img = await Image.findOne({ _id: userdata.img });
+	// const img = await Image.findOne({ _id: userdata.img });
 
 	res.render("profile", {
 		userdata: userdata,
 		cat: cat,
 		title: "Profile",
-		img: img,
+		// img: img,
 	});
 });
 
@@ -185,15 +187,15 @@ router.post(
 				{ imagefile: filename }
 			);
 
-			await Question.updateMany(
-				{ postedby: req.user._id },
-				{ userimg: filename }
-			);
+			// await Question.updateMany(
+			// 	{ postedby: req.user._id },
+			// 	{ userimg: filename }
+			// );
 
-			await Answer.updateMany(
-				{ givenby: req.user._id },
-				{ userimg: filename }
-			);
+			// await Answer.updateMany(
+			// 	{ givenby: req.user._id },
+			// 	{ userimg: filename }
+			// );
 		}
 
 		if (removebtn) {

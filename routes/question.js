@@ -35,7 +35,7 @@ router.get("/:id", async (req, res) => {
 		populate: { path: "img" },
 	});
 
-	console.log("answers", answers);
+	// console.log("answers", answers);
 	const rel_ques = await Question.find({ category: question.category });
 	if (req.isAuthenticated()) {
 		const user = await User.findOne({ _id: req.user._id });

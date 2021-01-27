@@ -39,7 +39,7 @@ function ansLikeDislike(ansId, type, val) {
 		data: { ansId: ansId, type: type, val: val },
 	}).done((data) => {
 		$("#" + type + "-" + ansId).text(data.result);
-		// location.reload();
+		location.reload();
 	});
 }
 
