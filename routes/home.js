@@ -28,7 +28,10 @@ const Image = require("../models/Image");
 const Answer = require("../models/Answer");
 
 router.get("/", async (req, res) => {
-	const questions = await Question.find({});
+	const questions = await Question.find({}).populate({
+		path: "postedby",
+		populate: { path: "img" },
+	});
 	// console.log(questions);
 	const categories = await Category.find({});
 	res.render("home", {
@@ -255,13 +258,13 @@ router.post("/askquestion", async (req, res) => {
 	// console.log("cat", cat[0].categoryName);
 
 	// Inserting Question to the database.
-	const img = await Image.findOne({ foruser: req.user._id });
+	// const img = await Image.findOne({ foruser: req.user._id });
 	const newques = new Question({
 		ques: question,
 		postedby: req.user._id,
 		category: cat[0].categoryName,
 		owner: req.user.username,
-		userimg: img.imagefile,
+		// userimg: img.imagefile,
 	});
 
 	await newques.save();

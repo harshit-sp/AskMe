@@ -23,9 +23,19 @@ const { render } = require("ejs");
 router.get("/:id", async (req, res) => {
 	const reqId = req.params.id;
 
-	const question = await Question.findOne({ _id: reqId });
+	const question = await Question.findOne({ _id: reqId }).populate({
+		path: "postedby",
+		populate: { path: "img" },
+	});
 	// console.log(question);
-	const answers = await Answer.find({ _id: { $in: question.ansId } });
+	// const answers = await Answer.find({ _id: { $in: question.ansId } });
+
+	const answers = await Answer.find().populate({
+		path: "givenby",
+		populate: { path: "img" },
+	});
+
+	console.log("answers", answers);
 	const rel_ques = await Question.find({ category: question.category });
 	if (req.isAuthenticated()) {
 		const user = await User.findOne({ _id: req.user._id });
@@ -89,13 +99,13 @@ router.post("/answer/:id", async (req, res) => {
 		req.flash("error_msg", "Please enter all fields.");
 		res.redirect("/question/answer/" + req.body.publish);
 	}
-	const img = await Image.findOne({ foruser: req.user._id });
+	// const img = await Image.findOne({ foruser: req.user._id });
 	const newAns = new Answer({
 		ques: req.params.id,
 		givenby: req.user._id,
 		answer: req.body.postBody,
 		answeredBy: req.user.username,
-		userimg: img.imagefile,
+		// userimg: img.imagefile,
 	});
 
 	await newAns.save();

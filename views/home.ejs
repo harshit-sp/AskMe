@@ -34,7 +34,7 @@
                 <hr>
                 <% questions.forEach(question => { %>
                     <article class="media content-section">
-                        <img class="rounded-circle article-img" src="/uploads/profilepics/<%= question.userimg %>">
+                        <img class="rounded-circle article-img" src="/uploads/profilepics/<%= question.postedby.img.imagefile %>">
                         <div class="media-body">
                             <div class="article-metadata border-bottom">
                                 <a style="color: #626ee3;" class="mr-2">

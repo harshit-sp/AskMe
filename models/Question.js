@@ -5,7 +5,7 @@ const questionSchema = new mongoose.Schema({
 	ques: String,
 	postedby: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 	owner: String,
-	userimg: String,
+	// userimg: String,
 	postedDate: { type: Date, default: Date.now },
 	ansId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Answer" }],
 	category: String,
