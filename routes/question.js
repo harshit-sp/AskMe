@@ -20,6 +20,7 @@ const {
 } = require("../config/auth");
 const { render } = require("ejs");
 
+// Question config
 router.get("/:id", async (req, res) => {
 	const reqId = req.params.id;
 
@@ -30,13 +31,18 @@ router.get("/:id", async (req, res) => {
 	// console.log(question);
 	// const answers = await Answer.find({ _id: { $in: question.ansId } });
 
-	const answers = await Answer.find().populate({
+	const answers = await Answer.find({
+		_id: { $in: question.ansId },
+	}).populate({
 		path: "givenby",
 		populate: { path: "img" },
 	});
 
 	// console.log("answers", answers);
-	const rel_ques = await Question.find({ category: question.category });
+	const rel_ques = await Question.find({
+		_id: { $nin: reqId },
+		category: question.category,
+	});
 	if (req.isAuthenticated()) {
 		const user = await User.findOne({ _id: req.user._id });
 		res.render("question", {
@@ -56,14 +62,21 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
+// Category based questions config
 router.get("/category/:category", async (req, res) => {
 	const reqCat = req.params.category;
 	// console.log(reqCat);
 	let questions;
 	if (reqCat == "All") {
-		questions = await Question.find();
+		questions = await Question.find().populate({
+			path: "postedby",
+			populate: { path: "img" },
+		});
 	} else {
-		questions = await Question.find({ category: reqCat });
+		questions = await Question.find({ category: reqCat }).populate({
+			path: "postedby",
+			populate: { path: "img" },
+		});
 	}
 
 	// console.log(questions);
@@ -77,6 +90,7 @@ router.get("/category/:category", async (req, res) => {
 	});
 });
 
+// Answer config
 router.get("/answer/:id", ensureAuthenticated, async (req, res) => {
 	const ques = await Question.findOne({ _id: req.params.id });
 
@@ -124,6 +138,7 @@ router.post("/answer/:id", async (req, res) => {
 	res.redirect("/question/" + req.body.publish);
 });
 
+// Comment config
 router.post("/answer/comments/:id", ensureAuthenticated, async (req, res) => {
 	// console.log(req.user.username);
 	const comment = new Comment({
@@ -139,12 +154,27 @@ router.post("/answer/comments/:id", ensureAuthenticated, async (req, res) => {
 	res.redirect("/question/" + req.params.id);
 });
 
+// Like Dislike config
 router.get("/answer/:type/:id/:val", async (req, res) => {
 	const { type, id, val } = req.params;
 
 	let ans;
 	let result;
+	let change = false;
 	if (type == "like") {
+		let user = await User.findOne({ _id: req.user._id });
+		if (user.dislikedans.includes(id)) {
+			await User.findOneAndUpdate(
+				{ _id: req.user._id },
+				{ $pull: { dislikedans: id } }
+			);
+			await Answer.findOneAndUpdate(
+				{ _id: id },
+				{ $inc: { dislikes: -1 } }
+			);
+			change = true;
+		}
+
 		await Answer.findOneAndUpdate({ _id: id }, { $inc: { likes: val } });
 		if (val == 1) {
 			await User.findByIdAndUpdate(
@@ -160,6 +190,16 @@ router.get("/answer/:type/:id/:val", async (req, res) => {
 		ans = await Answer.findOne({ _id: req.params.id });
 		result = ans.likes;
 	} else {
+		let user = await User.findOne({ _id: req.user._id });
+		if (user.likedans.includes(id)) {
+			await User.findOneAndUpdate(
+				{ _id: req.user._id },
+				{ $pull: { likedans: id } }
+			);
+			await Answer.findOneAndUpdate({ _id: id }, { $inc: { likes: -1 } });
+			change = true;
+		}
+
 		await Answer.findOneAndUpdate({ _id: id }, { $inc: { dislikes: val } });
 		if (val == 1) {
 			await User.findByIdAndUpdate(
@@ -175,9 +215,10 @@ router.get("/answer/:type/:id/:val", async (req, res) => {
 		ans = await Answer.findOne({ _id: req.params.id });
 		result = ans.dislikes;
 	}
-	res.status(200).send({ result: result });
+	res.status(200).send({ result: result, change: change });
 });
 
+// Report config
 router.get("/report/:qid/:id", ensureAuthenticated, async (req, res) => {
 	const ans = await Answer.findOne({ _id: req.params.id });
 
@@ -209,10 +250,6 @@ router.post("/report/:qid/:id", async (req, res) => {
 
 	rr.forEach((r) => {
 		execute = false;
-		// console.log("r", r);
-		// console.log(req.user._id);
-		// console.log(r.reportedby);
-		// console.log(String(r.reportedby) == String(req.params._id));
 		if (String(r.reportedby) == String(req.user._id)) {
 			req.flash("error_msg", "You can report only once.");
 

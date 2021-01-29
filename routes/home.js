@@ -44,6 +44,38 @@ router.get("/", async (req, res) => {
 	});
 });
 
+// Search config
+router.get("/search", (req, res) => {
+	var regex = new RegExp(req.query["term"], "i");
+
+	var questions = Question.find({ ques: regex }, { ques: 1 })
+		.sort({ updated_at: -1 })
+		.sort({ created_at: -1 })
+		.limit(10);
+
+	questions.exec(function (err, data) {
+		// console.log("data", data);
+		var result = [];
+		if (!err) {
+			if (data && data.length && data.length > 0) {
+				data.forEach((que) => {
+					let obj = {
+						id: que._id,
+						label: que.ques,
+					};
+					result.push(obj);
+				});
+			}
+			// console.log(result);
+			res.jsonp(result);
+		}
+	});
+});
+
+router.post("/search", (req, res) => {
+	res.redirect("question/" + req.body.searchbtn);
+});
+
 // Login config
 router.get("/login", forwardAuthenticated, (req, res) => {
 	res.render("login");

@@ -5,7 +5,7 @@ html {
 body {
 	/* font-family: 'Montserrat', sans-serif; */
 	background: #f6f9fc;
-	color: #333333;
+	color: #02203c;
 	margin-top: 7rem;
 	display: flex;
 	flex-direction: column;
@@ -23,7 +23,8 @@ h3,
 h4,
 h5,
 h6 {
-	color: #444444;
+	/* color: #444444; */
+	color: #02203c;
 }
 
 ul {
@@ -33,7 +34,7 @@ ul {
 .brandname {
 	font-weight: 700;
 	font-size: x-large;
-	color: #333333;
+	color: #02203c;
 }
 
 .navbar {
@@ -321,4 +322,17 @@ a.foot-l:hover:before {
 	font-family: "Open Sans", sans-serif;
 	font-weight: 600;
 	font-size: 45px;
+}
+
+#search-field {
+	/* min-width: 100px; */
+	padding: 5px;
+	z-index: 2147483647;
+}
+
+#ui-id-1 {
+	z-index: 9999;
+	width: fit-content;
+	font-family: "Open Sans", sans-serif;
+	border-radius: 4px;
 }
