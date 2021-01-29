@@ -46,10 +46,26 @@ function ansLikeDislike(ansId, type, val) {
 		dataType: "json",
 		data: { ansId: ansId, type: type, val: val },
 	}).done((data) => {
-		$("#" + type + "-" + ansId).text(data.result);
+		$("#" + type + "-" + ansId).text(data.result[0]);
 		console.log(data.change);
 		if (data.change) {
-			location.reload();
+			// location.reload();
+			// console.log(data.result);
+			if (type == "like") {
+				$("#ilike-" + ansId).addClass("fas");
+				$("#ilike-" + ansId).removeClass("far");
+				$("#idislike-" + ansId).addClass("far");
+				$("#idislike-" + ansId).removeClass("fas");
+				$("#dislike-" + ansId).text(data.result[1]);
+				dval["" + ansId] = -dval["" + ansId];
+			} else {
+				$("#ilike-" + ansId).addClass("far");
+				$("#ilike-" + ansId).removeClass("fas");
+				$("#idislike-" + ansId).addClass("fas");
+				$("#idislike-" + ansId).removeClass("far");
+				$("#like-" + ansId).text(data.result[1]);
+				lval["" + ansId] = -lval["" + ansId];
+			}
 		}
 	});
 }

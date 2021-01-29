@@ -188,7 +188,7 @@ router.get("/answer/:type/:id/:val", async (req, res) => {
 			);
 		}
 		ans = await Answer.findOne({ _id: req.params.id });
-		result = ans.likes;
+		result = [ans.likes, ans.dislikes];
 	} else {
 		let user = await User.findOne({ _id: req.user._id });
 		if (user.likedans.includes(id)) {
@@ -213,8 +213,10 @@ router.get("/answer/:type/:id/:val", async (req, res) => {
 			);
 		}
 		ans = await Answer.findOne({ _id: req.params.id });
-		result = ans.dislikes;
+		result = [ans.dislikes, ans.likes];
 	}
+
+	// console.log(result);
 	res.status(200).send({ result: result, change: change });
 });
 
