@@ -153,7 +153,7 @@ function f(ansId, type) {
 	}
 	ansLikeDislike(ansId, "like", lval[ansIdStr]);
 	lval[ansIdStr] = -lval[ansIdStr];
-	console.log(lval);
+	// console.log(lval);
 }
 
 // var dval = -1;
@@ -191,7 +191,7 @@ function fd(ansId, type) {
 		ansLikeDislike(ansId, "dislike", dval[ansIdStr]);
 		dval[ansIdStr] = -dval[ansIdStr];
 	}
-	console.log(dval);
+	// console.log(dval);
 }
 
 // Search Functionality

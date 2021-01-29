@@ -134,6 +134,19 @@ router.post("/answer/:id", async (req, res) => {
 		{ $inc: { quesAnswered: 1 } }
 	);
 
+	const user = await User.findOne({ _id: req.user._id });
+
+	let likes = user.totalLikes;
+	let dislikes = user.totaldisLikes;
+	let quesAnswered = user.quesAnswered;
+	let quesReportedandDeleted = user.quesReportedandDeleted;
+
+	const score =
+		5 * likes +
+		10 * quesAnswered -
+		(10 * quesReportedandDeleted + 3 * dislikes);
+
+	await User.findOneAndUpdate({ _id: req.user._id }, { score: score });
 	// console.log(newAns);
 	res.redirect("/question/" + req.body.publish);
 });
@@ -216,7 +229,6 @@ router.get("/answer/:type/:id/:val", async (req, res) => {
 		result = [ans.dislikes, ans.likes];
 	}
 
-	// console.log(result);
 	res.status(200).send({ result: result, change: change });
 });
 
