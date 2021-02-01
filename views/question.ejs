@@ -45,7 +45,7 @@
                                 <p class="text-muted">Author has <b>
                                     <%= answer.givenby.quesAnswered %>
                                     <% var ans; %>
-                                </b><% ans = (answer.givenby.quesAnswered > 1) ? "answers" : "answer" %> <%= ans %>  and <b> <%= (answer.givenby.score).toFixed(1)%></b> score out of <b>5.0</b></p>
+                                </b><% ans = (answer.givenby.quesAnswered > 1) ? "answers" : "answer" %> <%= ans %>  and <b> <%= (answer.givenby.score).toFixed(1)%></b></p>
                                 <div>
                                     <%- answer.answer %>
                                 </div>

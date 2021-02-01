@@ -72,9 +72,9 @@ router.get("/search", (req, res) => {
 	});
 });
 
-router.post("/search", (req, res) => {
-	res.redirect("question/" + req.body.searchbtn);
-});
+// router.post("/search", (req, res) => {
+// 	res.redirect("question/" + req.body.searchbtn);
+// });
 
 // Login config
 router.get("/login", forwardAuthenticated, (req, res) => {

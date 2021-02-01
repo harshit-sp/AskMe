@@ -218,6 +218,37 @@ $(function () {
 				$("#searchQues").val(ui.item.label);
 				$("#searchBtn").val(ui.item.id);
 			}
+
+			window.location.href = "question/" + ui.item.id;
+		},
+	});
+});
+
+$(function () {
+	$("#question").autocomplete({
+		source: function (req, res) {
+			$.ajax({
+				url: "/search/",
+				dataType: "jsonp",
+				type: "GET",
+				data: req,
+				success: function (data) {
+					// console.log(data);
+					res(data);
+				},
+				error: function (err) {
+					console.log(err);
+				},
+			});
+		},
+		minLength: 1,
+		select: function (event, ui) {
+			if (ui.item) {
+				$("#searchQues").val(ui.item.label);
+				$("#searchBtn").val(ui.item.id);
+			}
+
+			window.location.href = "question/" + ui.item.id;
 		},
 	});
 });

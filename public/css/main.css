@@ -331,7 +331,6 @@ a.foot-l:hover:before {
 
 #ui-id-1 {
 	z-index: 9999;
-	/* width: fit-content; */
-	font-family: "Open Sans", sans-serif;
+	font-family: "Ubuntu", sans-serif;
 	border-radius: 4px;
 }
