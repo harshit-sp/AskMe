@@ -14,6 +14,7 @@ const answerSchema = new mongoose.Schema({
 	reportedCount: { type: Number, default: 0 },
 	postedDate: { type: Date, default: Date.now },
 	comments: [commentSchema.commentSchema],
+	isPrivate: { type: Boolean, default: false },
 });
 
 const Answer = mongoose.model("Answer", answerSchema);

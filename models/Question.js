@@ -12,6 +12,7 @@ const questionSchema = new mongoose.Schema({
 	category: String,
 	reasonsQ: [reportSchema.reportSchema],
 	reportedCountQ: { type: Number, default: 0 },
+	isPrivate: { type: Boolean, default: false },
 });
 
 const Question = mongoose.model("Question", questionSchema);

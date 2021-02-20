@@ -59,6 +59,9 @@ app.use("/admin", adminRouter);
 const questionRouter = require("./routes/question");
 app.use("/question", questionRouter);
 
+const privateSpaceRouter = require("./routes/privatespace");
+app.use("/privatespace", privateSpaceRouter);
+
 // app.get("/", (req, res) => {
 //     res.render("home", {
 //         questions: questions,

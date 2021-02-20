@@ -2,6 +2,7 @@
 <html>
 
 <head>
+
     <!-- font-awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
     <!-- Required meta tags -->
@@ -79,10 +80,15 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/askquestion">Ask Question</a>
                             </li>
+
+                            <div class="btn-group dropdown">
+                                <a type="button" class="btn dropdown-toggle" data-toggle="dropdown">Explore</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/privatespace">Private Space</a>
+                                </div>
+                            </div>
                             <% } %>
-                            <!-- <li class="nav-item">
-                                <a class="nav-link" href="#"><span>Jobs</span></a>
-                            </li> -->
+
                     </ul>
                     <!-- <form action="/search" method="POST" class="form-inline mt-2 mt-lg-0"> -->
                         <input style="width: 400px;" name="searchid" id="searchQues" class="autocomplete form-control mr-sm-2" type="text" placeholder="Search">

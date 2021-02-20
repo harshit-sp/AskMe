@@ -2,8 +2,7 @@
 
     <main role="main" class="container">
         <div class="row">
-
-            <div class="col-md-9 verticle-line">
+            <div class="col-md-9">
                 <%- include("partials/messages") %>
                 <article class="media">
                     <img class="rounded-circle article-img" src="/uploads/profilepics/<%= question.postedby.img.imagefile %> ">
@@ -30,7 +29,7 @@
                 <hr>
                 <% answers.forEach(answer => { %>
 
-                    <div class="content-section">
+                    <div class="content-section-answers">
 
                         <article class="media">
                             <img class="rounded-circle article-img" src="/uploads/profilepics/<%= answer.givenby.img.imagefile %>">

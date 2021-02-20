@@ -375,3 +375,33 @@ a.foot-l:hover:before {
 	text-decoration: none;
 	color: #fff;
 } */
+
+*:focus {
+	outline: none !important;
+}
+
+.content-section-private {
+	background: #ffffff;
+	padding: 16px 20px 0px 20px;
+	border: 1px solid #dddddd;
+	border-radius: 8px;
+	margin-bottom: 20px;
+	box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
+}
+
+/* article.content-section {
+	transition: transform 0.5s ease;
+} */
+
+article.content-section:hover {
+	transform: scale(1.01);
+}
+
+div.content-section-answers {
+	background: #ffffff;
+	padding: 16px 20px 10px 20px;
+	border: 1px solid #dddddd;
+	border-radius: 3px;
+	margin-bottom: 20px;
+	box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
+}

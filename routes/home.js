@@ -52,7 +52,10 @@ router.get("/", async (req, res) => {
 router.get("/search", (req, res) => {
 	var regex = new RegExp(req.query["term"], "i");
 
-	var questions = Question.find({ ques: regex }, { ques: 1 })
+	var questions = Question.find(
+		{ $and: [{ isPrivate: false }, { ques: regex }] },
+		{ ques: 1 }
+	)
 		.sort({ updated_at: -1 })
 		.sort({ created_at: -1 })
 		.limit(10);
