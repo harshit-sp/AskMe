@@ -18,7 +18,11 @@ const upload = multer({
 	},
 });
 
-const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
+const {
+	ensureAuthenticated,
+	forwardAuthenticated,
+	blockAuth,
+} = require("../config/auth");
 
 // Models
 const Category = require("../models/Category");
@@ -35,7 +39,7 @@ router.get("/", async (req, res) => {
 		populate: { path: "img" },
 	});
 	// console.log(questions);
-	const categories = await Category.find({});
+	const categories = await Category.find({}).sort({ categoryName: 1 });
 	res.render("home", {
 		questions: questions,
 		category: "All",
@@ -83,6 +87,7 @@ router.get("/login", forwardAuthenticated, (req, res) => {
 
 router.post("/login", (req, res, next) => {
 	// console.log(req.body);
+
 	passport.authenticate("local", {
 		successRedirect: "/",
 		failureRedirect: "/login",
@@ -198,9 +203,7 @@ router.get("/profile", ensureAuthenticated, async (req, res) => {
 	let quesReportedandDeleted = user.quesReportedandDeleted;
 
 	const score =
-		5 * like +
-		10 * quesAnswered -
-		(10 * quesReportedandDeleted + 3 * dislike);
+		5 * like + 10 * quesAnswered - (10 * quesReportedandDeleted + 3 * dislike);
 
 	await User.findOneAndUpdate({ _id: req.user._id }, { score: score });
 
@@ -267,10 +270,7 @@ router.post(
 
 		if (skills) {
 			var skill = skills.split(",").map((item) => item.trim());
-			await User.findByIdAndUpdate(
-				{ _id: req.user._id },
-				{ skills: skill }
-			);
+			await User.findByIdAndUpdate({ _id: req.user._id }, { skills: skill });
 		}
 
 		if (interests) {
@@ -291,7 +291,7 @@ router.post(
 );
 
 // Ask Question config
-router.get("/askquestion", ensureAuthenticated, async (req, res) => {
+router.get("/askquestion", ensureAuthenticated, blockAuth, async (req, res) => {
 	const categories = await Category.find({});
 	res.render("askques", { categories: categories, title: "Post Question" });
 });
@@ -346,6 +346,11 @@ router.get("/about", (req, res) => {
 // Contact config
 router.get("/contact", (req, res) => {
 	res.render("contact", { title: "Contact" });
+});
+
+//Blocked config
+router.get("/blocked", (req, res) => {
+	res.render("blocked");
 });
 
 module.exports = router;
