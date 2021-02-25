@@ -47,7 +47,7 @@ function ansLikeDislike(ansId, type, val) {
 		data: { ansId: ansId, type: type, val: val },
 	}).done((data) => {
 		$("#" + type + "-" + ansId).text(data.result[0]);
-		console.log(data.change);
+		// console.log(data.change);
 		if (data.change) {
 			// location.reload();
 			// console.log(data.result);
@@ -69,58 +69,6 @@ function ansLikeDislike(ansId, type, val) {
 		}
 	});
 }
-
-// var lval = -1;
-// var llval = 1;
-// function f(ansId, type) {
-// 	if (type == "like") {
-// 		if (lval == -1) {
-// 			$("#ilike-" + ansId).addClass("far");
-// 			$("#ilike-" + ansId).removeClass("fas");
-// 		} else {
-// 			$("#ilike-" + ansId).addClass("fas");
-// 			$("#ilike-" + ansId).removeClass("far");
-// 		}
-// 		ansLikeDislike(ansId, "like", lval);
-// 		lval = -lval;
-// 	} else if (type == "l") {
-// 		if (llval == -1) {
-// 			$("#ilike-" + ansId).addClass("far");
-// 			$("#ilike-" + ansId).removeClass("fas");
-// 		} else {
-// 			$("#ilike-" + ansId).addClass("fas");
-// 			$("#ilike-" + ansId).removeClass("far");
-// 		}
-// 		ansLikeDislike(ansId, "like", llval);
-// 		llval = -llval;
-// 	}
-// }
-
-// var dval = -1;
-// var ddval = 1;
-// function fd(ansId, type) {
-// 	if (type == "dislike") {
-// 		if (dval == -1) {
-// 			$("#idislike-" + ansId).addClass("far");
-// 			$("#idislike-" + ansId).removeClass("fas");
-// 		} else {
-// 			$("#idislike-" + ansId).addClass("fas");
-// 			$("#idislike-" + ansId).removeClass("far");
-// 		}
-// 		ansLikeDislike(ansId, "dislike", dval);
-// 		dval = -dval;
-// 	} else if (type == "d") {
-// 		if (ddval == -1) {
-// 			$("#idislike-" + ansId).addClass("far");
-// 			$("#idislike-" + ansId).removeClass("fas");
-// 		} else {
-// 			$("#idislike-" + ansId).addClass("fas");
-// 			$("#idislike-" + ansId).removeClass("far");
-// 		}
-// 		ansLikeDislike(ansId, "dislike", ddval);
-// 		ddval = -ddval;
-// 	}
-// }
 
 const lval = {};
 function f(ansId, type) {

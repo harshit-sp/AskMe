@@ -3,6 +3,7 @@ const router = express.Router();
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const path = require("path");
 
 // Models
 const Category = require("../models/Category");
@@ -40,11 +41,29 @@ router.get("/", ensureAuthenticated, async (req, res) => {
 });
 
 router.get("/question/:id", ensureAuthenticated, async (req, res) => {
-	// const questions = await Question.find({ isPrivate: true });
-	// res.render("privatespacehome", {
-	// 	questions: questions,
-	// 	title: "Private Space",
-	// });
+	const reqId = req.params.id;
+
+	const question = await Question.findOne({ _id: reqId });
+
+	const answers = await Answer.find({
+		_id: { $in: question.ansId },
+	});
+
+	if (req.isAuthenticated()) {
+		const user = await User.findOne({ _id: req.user._id });
+		res.render("privatequestionanswer", {
+			question: question,
+			answers: answers,
+			title: null,
+			user: user,
+		});
+	} else {
+		res.render("privatequestionanswer", {
+			question: question,
+			answers: answers,
+			title: null,
+		});
+	}
 });
 
 router.get("/privatequestion", ensureAuthenticated, (req, res) => {

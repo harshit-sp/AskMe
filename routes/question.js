@@ -68,12 +68,14 @@ router.get("/category/:category", async (req, res) => {
 	// console.log(reqCat);
 	let questions;
 	if (reqCat == "All") {
-		questions = await Question.find().populate({
+		questions = await Question.find({ isPrivate: false }).populate({
 			path: "postedby",
 			populate: { path: "img" },
 		});
 	} else {
-		questions = await Question.find({ category: reqCat }).populate({
+		questions = await Question.find({
+			$and: [{ isPrivate: false }, { category: reqCat }],
+		}).populate({
 			path: "postedby",
 			populate: { path: "img" },
 		});
@@ -81,7 +83,7 @@ router.get("/category/:category", async (req, res) => {
 
 	// console.log(questions);
 
-	const categories = await Category.find({});
+	const categories = await Category.find({}).sort({ categoryName: 1 });
 	res.render("home", {
 		questions: questions,
 		categories: categories,
@@ -233,21 +235,21 @@ router.get("/answer/:type/:id/:val", async (req, res) => {
 router.get("/report/:qid", ensureAuthenticated, async (req, res) => {
 	const ques = await Question.findOne({ _id: req.params.qid });
 
-	if (String(ques.postedby) == String(req.user._id)) {
-		req.flash("error_msg", "You cannot report your own question.");
+	// if (String(ques.postedby) == String(req.user._id)) {
+	// 	req.flash("error_msg", "You cannot report your own question.");
 
-		res.redirect("/question/" + req.params.qid);
-	}
-	const rr = ques.reasonsQ;
+	// 	res.redirect("/question/" + req.params.qid);
+	// }
+	// const rr = ques.reasonsQ;
 
-	rr.forEach((r) => {
-		execute = false;
-		if (String(r.reportedby) == String(req.user._id)) {
-			req.flash("error_msg", "You can report only once.");
+	// rr.forEach((r) => {
+	// 	execute = false;
+	// 	if (String(r.reportedby) == String(req.user._id)) {
+	// 		req.flash("error_msg", "You can report only once.");
 
-			res.redirect("/question/" + req.params.qid);
-		}
-	});
+	// 		res.redirect("/question/" + req.params.qid);
+	// 	}
+	// });
 
 	res.render("report", {
 		title: "Report",
@@ -302,21 +304,21 @@ router.post("/report/:qid", async (req, res) => {
 router.get("/report/:qid/:id", ensureAuthenticated, async (req, res) => {
 	const ans = await Answer.findOne({ _id: req.params.id });
 
-	if (String(ans.givenby) == String(req.user._id)) {
-		req.flash("error_msg", "You cannot report your own answer.");
+	// if (String(ans.givenby) == String(req.user._id)) {
+	// 	req.flash("error_msg", "You cannot report your own answer.");
 
-		res.redirect("/question/" + req.params.qid);
-	}
-	const rr = ans.reasons;
+	// 	res.redirect("/question/" + req.params.qid);
+	// }
+	// const rr = ans.reasons;
 
-	rr.forEach((r) => {
-		execute = false;
-		if (String(r.reportedby) == String(req.user._id)) {
-			req.flash("error_msg", "You can report only once.");
+	// rr.forEach((r) => {
+	// 	execute = false;
+	// 	if (String(r.reportedby) == String(req.user._id)) {
+	// 		req.flash("error_msg", "You can report only once.");
 
-			res.redirect("/question/" + req.params.qid);
-		}
-	});
+	// 		res.redirect("/question/" + req.params.qid);
+	// 	}
+	// });
 	res.render("report", {
 		title: "Report",
 		id: req.params.id,

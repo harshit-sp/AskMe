@@ -34,7 +34,7 @@ const { config } = require("process");
 
 // Home config
 router.get("/", async (req, res) => {
-	const questions = await Question.find({}).populate({
+	const questions = await Question.find({ isPrivate: false }).populate({
 		path: "postedby",
 		populate: { path: "img" },
 	});

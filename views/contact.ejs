@@ -1,15 +1,118 @@
-<%- include("partials/header") %>
+<!DOCTYPE html>
+<html>
 
-    <main role="main">
-        <div class="container col-md-9">
-            <h1 class="article-title">Contact</h1>
-            <hr>
-            <p>
-                Email us at: askme@email.com
-            </p>
-            <!-- <p>
-              Phone: +91-12121-21212
-            </p> -->
+<head>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+    <!-- font-awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="icon" href="/media/fav.ico">
+    <title>AskME - Contact</title>
+
+
+</head>
+<body style="margin-top: 50px; background-color: #02203c;" class="">
+
+
+        <div class="contact container col-md-12 text-center">
+            <h1 style="letter-spacing: 3.5px" class="text-white"><b>CONTACT</b></h1>
+            <hr style="border-color: white;" >
+            <h4 style="letter-spacing: 1.2px" class="text-white">
+                We'd  <i class="text-purple far fa-heart"></i>  to help!
+            </h4>
+            <br>
+            <br>
+            <div style="margin: auto" class="row col-10">
+                <div class="col-md-6">
+                    <br>
+                    <form style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="Your Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Your Email">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Message"></textarea>
+                        </div>
+                        <button type="submit" class="mybtn btn btn-outline-light"> Submit </button>
+                    </form>
+                    <br>
+                </div>
+                <div style="font-family: Verdana, Geneva, Tahoma, sans-serif;" class="col-md-6">
+                    <br>
+                    <div style="margin: auto;" class="row col-10">
+                        <div style="margin: auto;" class="col-md-3">
+                            <i class="text-white fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="text-white col-md-8">
+                            <b>AskME</b>
+                        </div>
+                    </div>
+                    <div style="margin: auto;" class="row col-10">
+                        <div style="margin: auto;" class="col-md-3">
+
+                        </div>
+                        <div class="text-white col-md-8">
+                            Ahmedabad, Gujarat
+                        </div>
+                    </div>
+                    <br>
+                    <div style="margin: auto;" class="row col-10">
+                        <div style="margin: auto;" class="text-white col-md-3">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="text-white col-md-8">
+                            +91- 12345-09876
+                        </div>
+                    </div>
+                    <br>
+                    <div style="margin: auto;" class="row col-10">
+                        <div style="margin: auto;" class="text-white col-md-3">
+                            <i class="far fa-envelope"></i>
+                        </div>
+                        <div class="text-white col-md-8">
+                            askme@email.com
+                        </div>
+
+                    </div>
+                    <br>
+                    <br>
+                    <div class="col-md-12 text-center">
+
+                        <span class="footer-icon">
+                            <a class="icons"
+                                <i class="social-icon fab fa-facebook-f"></i></a>
+                        </span>
+                        <span class="footer-icon">
+                            <i class="social-icon fab fa-twitter"></i>
+                        </span>
+                        <span class="footer-icon">
+                            <i class="social-icon fab fa-instagram"></i>
+                        </span>
+                        <span class="footer-icon">
+                            <i class="social-icon fas fa-envelope"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </main>
-    <%- include("partials/footer") %>
+</body>
+</html>
