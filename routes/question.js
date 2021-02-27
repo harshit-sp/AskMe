@@ -107,7 +107,7 @@ router.get("/answer/:id", ensureAuthenticated, async (req, res) => {
 	res.render("answer", { question: question, title: "Answer Page" });
 });
 
-router.post("/answer/:id", async (req, res) => {
+router.post("/answer/:id", ensureAuthenticated, async (req, res) => {
 	// console.log(req.body);
 
 	if (req.body.postBody == "") {
@@ -363,6 +363,29 @@ router.post("/report/:qid/:id", async (req, res) => {
 			{ $push: { reasons: reason }, $inc: { reportedCount: 1 } }
 		);
 	}
+
+	res.redirect("/question/" + req.params.qid);
+});
+
+// Update Answer config
+router.get("/updateanswer/:qid/:id", async (req, res) => {
+	// console.log(req.params.qid, req.params.id);
+	const question = await Question.findOne({ _id: req.params.qid });
+	const answer = await Answer.findOne({ _id: req.params.id });
+
+	res.render("updateanswer", {
+		question: question,
+		answer: answer,
+		title: "Update Answer",
+	});
+});
+
+router.post("/updateanswer/:qid/:id", ensureAuthenticated, async (req, res) => {
+	console.log("anansn");
+	await Answer.findByIdAndUpdate(
+		{ _id: req.params.id },
+		{ answer: req.body.postBody }
+	);
 
 	res.redirect("/question/" + req.params.qid);
 });

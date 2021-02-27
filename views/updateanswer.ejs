@@ -1,0 +1,19 @@
+<%- include("partials/header") -%>
+<main role="main">
+  <div class="container col-md-8">
+    <%- include("partials/messages") %>
+    <h4>
+      <%- question.ques %>
+    </h4>
+    <hr>
+    <form action="/question/updateanswer/<%= question._id %>/<%= answer._id %>" method="POST">
+      <div class="form-group">
+        <label for="postBody">Answer</label>
+        <textarea name="postBody" id="myTextarea"><%- answer.answer %> </textarea>
+      </div>
+      <button class="btn text-white mr-2 mybtn bg-blue" type="submit">Publish</button>
+      <a href="/" class="text-white btn bg-red mybtn">Cancel</a>
+    </form>
+  </div>
+</main>
+<%- include("partials/footer") -%>
