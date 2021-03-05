@@ -1,75 +1,82 @@
 <%- include("partials/header") -%>
 
-    <main role="main">
+<main role="main">
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 content-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 content-section">
 
-                    <div class="text-center">
-                        <img class="mt-4 mb-4 rounded-circle profile-img" src="/uploads/profilepics/<%= userdata.img.imagefile %>">
-                        <h5>
-                            <%= userdata.username %>
-                        </h5>
-                        <p>
-                            <% userdata.skills.forEach(skill => { %>
+                <div class="text-center">
+                    <img class="mt-4 mb-4 rounded-circle profile-img"
+                        src="/uploads/profilepics/<%= userdata.img.imagefile %>">
+                    <h5>
+                        <%= userdata.username %>
+                    </h5>
+                    <p>
+                        <% userdata.skills.forEach(skill => { %>
 
-                                <span class="badge badge-primary"><%= skill %></span>
+                        <span class="badge badge-primary"><%= skill %></span>
 
-                                    <% }) %>
-                        </p>
-                    </div>
-                    <hr>
-                    <div class="text-center">
-                        <form action="/profile/update" method="POST" enctype="multipart/form-data">
-                            <div class="form-group text-left">
-                                <label for="profilepic">Upload Photo</label>
-                                <input type="file" name="propic" id="profilepic">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="username" placeholder="Username">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="skills" placeholder="Skills (Use comma for more than one skills)">
-                            </div>
-                            <!-- --- Interests --- -->
-                            <h6 class="text-left">Interests</h6>
-
-
-
-                            <% cat.forEach(c => { %>
-                                <div class="form-check form-check-inline">
-                                    <% if (userdata.interests.includes(c._id)) { %>
-                                        <button type="submit" name="removebtn" value="<%= c._id%>" class="btn badge badge-dark">
-                                            <%= c.categoryName %> <span><i class="fas fa-times"></i></span>
-                                        </button><hr>
-                                    <% } else { %>
-                                        <div>
-                                            <input name="interests" class="form-check-input" type="checkbox" id="interests" value="<%= c._id %>">
-                                            <label class="form-check-label" for="interests"><%= c.categoryName %></label>
-                                        </div>
-                                    <% } %>
-
-                                </div>
-                                <% }); %>
-                                    <br><br>
-                                    <button class="btn mybtn bg-purple text-white" name="update" value="update" type="submit">Update</button>
-                                    <br><br>
-                        </form>
-                    </div>
+                        <% }) %>
+                    </p>
                 </div>
+                <hr>
+                <div class="text-center">
+                    <form action="/profile/update" method="POST" enctype="multipart/form-data">
+                        <div class="form-group text-left">
+                            <label for="profilepic">Upload Photo</label>
+                            <input type="file" name="propic" id="profilepic">
+                        </div>
 
-                <div class="col-md-7 ml-4 category-section">
-                    <h2 class="text-center">Ratings</h2><hr>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="skills"
+                                placeholder="Skills (Use comma for more than one skills)">
+                        </div>
+                        <!-- --- Interests --- -->
+                        <h6 class="text-left">Interests</h6>
 
-                    <div class="row">
+
+
+                        <% cat.forEach(c => { %>
+                        <div class="form-check form-check-inline">
+                            <% if (userdata.interests.includes(c._id)) { %>
+                            <button type="submit" name="removebtn" value="<%= c._id%>" class="btn badge badge-dark">
+                                <%= c.categoryName %> <span><i class="fas fa-times"></i></span>
+                            </button>
+                            <hr>
+                            <% } else { %>
+                            <div>
+                                <input name="interests" class="form-check-input" type="checkbox" id="interests"
+                                    value="<%= c._id %>">
+                                <label class="form-check-label" for="interests"><%= c.categoryName %></label>
+                            </div>
+                            <% } %>
+
+                        </div>
+                        <% }); %>
+                        <br><br>
+                        <button class="btn mybtn bg-purple text-white" name="update" value="update"
+                            type="submit">Update</button>
+                        <br><br>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-7 ml-4 category-section">
+                <h2 class="text-center">Ratings</h2>
+                <hr>
+
+                <div class="row">
                     <div class="col-md-12">
                         <!-- <div style="padding-left: 0px;"  class="col-md-12"> -->
-                            <!-- <div style="padding-right: 0px;" class="col-md-12"> -->
-                                <div class="rat-font col-md-12 content-section">
-                                    Score: <%= userdata.score %>
-                                </div>
-                            <!-- </div> -->
+                        <!-- <div style="padding-right: 0px;" class="col-md-12"> -->
+                        <div class="rat-font col-md-12 content-section">
+                            Score: <%= userdata.score %>
+                        </div>
+                        <!-- </div> -->
                         <!-- </div> -->
                     </div>
 
@@ -89,7 +96,7 @@
                             <div style="padding-right: 0px;" class="rat-font col-md-12">
                                 Total Dislikes:
                                 <div class="rat1-font text-red col-md-12">
-                                     <%= userdata.totaldisLikes %>
+                                    <%= userdata.totaldisLikes %>
                                 </div>
                             </div>
                         </div>
@@ -97,21 +104,21 @@
 
                     <div class="col-md-12">
                         <!-- <div style="padding-left: 0px;" class="col-md-12"> -->
-                            <!-- <div style="padding-right: 0px;" class="col-md-12"> -->
-                                <div class="rat-font col-md-12 content-section">
-                                    Question Posted: <%= userdata.quesPosted %>
-                                </div>
-                            <!-- </div> -->
+                        <!-- <div style="padding-right: 0px;" class="col-md-12"> -->
+                        <div class="rat-font col-md-12 content-section">
+                            Question Posted: <%= userdata.quesPosted %>
+                        </div>
+                        <!-- </div> -->
                         <!-- </div> -->
                     </div>
 
                     <div class="col-md-12">
                         <!-- <div style="padding-left: 0px;" class="col-md-12"> -->
-                            <!-- <div style="padding-right: 0px;" class="col-md-12"> -->
-                                <div class="rat-font col-md-12 content-section">
-                                    Question Answered: <%= userdata.quesAnswered %>
-                                </div>
-                            <!-- </div> -->
+                        <!-- <div style="padding-right: 0px;" class="col-md-12"> -->
+                        <div class="rat-font col-md-12 content-section">
+                            Question Answered: <%= userdata.quesAnswered %>
+                        </div>
+                        <!-- </div> -->
                         <!-- </div> -->
                     </div>
 
@@ -124,11 +131,11 @@
                         <!-- </div> -->
                         <!-- </div> -->
                     </div>
-                    </div>
-
                 </div>
+
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <%- include("partials/footer") -%>
+<%- include("partials/footer") -%>

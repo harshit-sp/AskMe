@@ -381,12 +381,20 @@ router.get("/updateanswer/:qid/:id", async (req, res) => {
 });
 
 router.post("/updateanswer/:qid/:id", ensureAuthenticated, async (req, res) => {
-	console.log("anansn");
 	await Answer.findByIdAndUpdate(
 		{ _id: req.params.id },
 		{ answer: req.body.postBody }
 	);
 
+	res.redirect("/question/" + req.params.qid);
+});
+
+router.get("/delete/:qid/:id", ensureAuthenticated, async (req, res) => {
+	await Answer.findOneAndDelete({ _id: req.params.id });
+	await User.findOneAndUpdate(
+		{ _id: req.user._id },
+		{ $inc: { quesAnswered: -1 } }
+	);
 	res.redirect("/question/" + req.params.qid);
 });
 

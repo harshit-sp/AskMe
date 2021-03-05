@@ -33,7 +33,10 @@ const {
 } = require("../config/auth");
 
 router.get("/", ensureAuthenticated, async (req, res) => {
-	const questions = await Question.find({ isPrivate: true });
+	const questions = await Question.find({ isPrivate: true }).populate({
+		path: "postedby",
+		populate: { path: "img" },
+	});
 	res.render("privatespacehome", {
 		questions: questions,
 		title: "Private Space",

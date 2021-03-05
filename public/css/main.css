@@ -489,3 +489,6 @@ a.foot-l:hover:before {
 	margin: 100px auto;
 }
 
+#myTextarea {
+	height: 350px;
+}
