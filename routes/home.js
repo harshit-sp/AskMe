@@ -51,6 +51,7 @@ router.get("/", async (req, res) => {
 // Search config
 router.get("/search", (req, res) => {
 	var regex = new RegExp(req.query["term"], "i");
+	console.log(regex);
 
 	var questions = Question.find(
 		{ $and: [{ isPrivate: false }, { ques: regex }] },
@@ -76,6 +77,44 @@ router.get("/search", (req, res) => {
 			// console.log(result);
 			res.jsonp(result);
 		}
+	});
+});
+
+router.get("/searchQuestion", async (req, res) => {
+	// console.log("req", req.query.saidText);
+	var regex = new RegExp(req.query.saidText, "i");
+	// console.log(regex);
+
+	var questions = await Question.find({
+		$and: [{ isPrivate: false }, { ques: regex }],
+	}).populate({
+		path: "postedby",
+		populate: { path: "img" },
+	});
+	// console.log("questions", questions);
+	res.jsonp(questions);
+	// questions.exec(function (err, data) {
+	// console.log("data", data);
+
+	// 	if (!err) {
+	// 		if (data && data.length && data.length > 0) {
+	// 			data.forEach((que) => {
+	// 				result.push(que);
+	// console.log("que", que);
+	// 			});
+	// 		}
+	// console.log(result);
+	// 		res.jsonp(result);
+	// 	}
+	// });
+	// const questions = await Question.find({ isPrivate: false });
+	// console.log("result", result);
+	const categories = await Category.find({}).sort({ categoryName: 1 });
+	res.render("homeSearch", {
+		questions: questions,
+		category: "All",
+		categories: categories,
+		title: null,
 	});
 });
 

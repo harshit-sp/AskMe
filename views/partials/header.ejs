@@ -100,11 +100,16 @@
 						</div> -->
 						<% } %>
 					</ul>
-					<!-- <form action="/search" method="POST" class="form-inline mt-2 mt-lg-0"> -->
-					<input style="width: 400px" name="searchid" id="searchQues" class="autocomplete form-control mr-sm-2"
-						type="text" placeholder="Search" />
-					<!-- <button id="searchBtn" name="searchbtn" class="btn text-white bg-purple ml-1 mr-2 my-2 my-sm-0" type="submit">Search</button> -->
-					<!-- </form> -->
+					<div id="search-form">
+						<div style="display: flex;">
+
+							<input style="width:350px" name="searchid" id="searchQues" class="autocomplete form-control mr-sm-2"
+								type="text" placeholder="Search or Speak.." />
+							<button class="btn bg-purple text-white mr-4" type="button"><i
+									class="micro fas fa-microphone"></i></button>
+						</div>
+						<!-- <button id="searchBtn" name="searchbtn" class="btn text-white bg-purple ml-1 mr-2 my-2 my-sm-0" type="submit">Search</button> -->
+					</div>
 					<ul class="navbar-nav mt-2 mt-lg-0">
 						<% if (login && admin == true) {%>
 						<li class="nav-item">

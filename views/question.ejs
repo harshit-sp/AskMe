@@ -5,7 +5,7 @@
 		<% if(question.isPrivate==false) { %>
 		<div class="col-md-9">
 			<% } else { %>
-			<div class="col-md-9" style="margin: auto;">
+			<div class="col-md-8" style="margin: auto;">
 				<% } %>
 
 				<%- include("partials/messages") %>
@@ -50,302 +50,302 @@
 							</h3>
 						</h2>
 					</div>
-			</div>
-			<% } %>
-			</article>
-			<div class="mt-2">
-				<a class="btn bg-blue text-white mybtn" href="/question/answer/<%= question._id %>">Answer</a>
-				<a class="btn mybtn ml-2 bg-red text-white" href="report/<%= question._id %>">Report</a>
-			</div>
-			<hr style="border-width: 2.5px" />
-
-
-			<% var aid; %>
-			<% if ( (question.isPrivate==false) ) { %>
-			<% answers.forEach(answer=>
-											{ %>
-			<% aid = answer._id %>
-			<div class="content-section">
-				<article class="media">
-					<img class="rounded-circle article-img" src="/uploads/profilepics/<%= answer.givenby.img.imagefile %>" />
-					<div class="media-body">
-						<div class="article-metadata border-bottom">
-							<a style="color: #626ee3" class="mr-2">
-								<%= answer.answeredBy %>
-							</a>
-							<% const options={ year: 'numeric' , month: 'long' , day: 'numeric' }; %>
-							<small class="text-muted">
-								<%= answer.postedDate.toLocaleDateString("en-US", options) %>
-							</small>
-							<div>
-								<% if (login && String(user._id)==String(answer.givenby._id)) { %>
-								<a href="updateanswer/<%= question._id %>/<%= answer._id %>"
-									class="mb-1 mt-1 mr-1 btn text-white btn-sm bg-blue">Update</a>
-								<button href="#myModal" class="trigger-btn mb-1 mt-1 btn text-white btn-sm bg-red"
-									data-toggle="modal">Delete</button>
-								<% } %>
-							</div>
-						</div>
-						<p class="text-muted">Author has
-							<b>
-								<%= answer.givenby.quesAnswered %>
-								<% var ans; %>
-							</b>
-							<% ans=(answer.givenby.quesAnswered> 1) ? "answers" : "answer" %> <%= ans %> and <b>
-								<%= (answer.givenby.score).toFixed(1)%>
-							</b> points.
-						</p>
-
-						<div>
-							<%- answer.answer %>
-						</div>
-						<!-- <hr> -->
-
-					</div>
+					<!-- </div> -->
+					<% } %>
 				</article>
-				<br>
-				<div class="row">
-					<div class="col">
-						<% var a=answer.likes %>
-						<% var l, d; %>
-						<% var b=answer.dislikes %>
-						<% if (a < 1000) { %>
-						<% l=a; %>
-						<% } else if (a>= 1000 && a < 999999) { %>
-						<% l=(a/1000).toFixed(1) + "K" ; %>
-						<% } else if (a < 999999999) { %>
-						<% l=(a/1000000).toFixed(1) + "M" ; %>
-						<% } else if (a>= 999999999) { %> <% l=(a/1000000000).toFixed(1) + "B" ;
-																										%>
-						<% } %>
-						<% if (b < 1000) { %>
-						<% d=b; %>
-						<% } else if (b>= 1000 && b < 999999) { %>
-						<% d=(b/1000).toFixed(1) + "K" ; %>
-						<% } else if (b < 999999999) { %>
-						<% d=(b/1000000).toFixed(1) + "M" ; %>
-						<% } else if (b>= 999999999)
-																																			{ %> <% d=(b/1000000000).toFixed(1) + "B" ; %>
-						<% } %>
+				<div class="mt-2">
+					<a class="btn bg-blue text-white mybtn" href="/question/answer/<%= question._id %>">Answer</a>
+					<a class="btn mybtn ml-2 bg-red text-white" href="report/<%= question._id %>">Report</a>
+				</div>
+				<hr style="border-width: 2.5px" />
 
-						<!-- <form> -->
-						<% if(login) { %>
-						<% if (user.likedans.includes(answer._id)) {
+
+				<% var aid; %>
+				<% if ( (question.isPrivate==false) ) { %>
+				<% answers.forEach(answer=>
+											{ %>
+				<% aid = answer._id %>
+				<div class="content-section">
+					<article class="media">
+						<img class="rounded-circle article-img" src="/uploads/profilepics/<%= answer.givenby.img.imagefile %>" />
+						<div class="media-body">
+							<div class="article-metadata border-bottom">
+								<a style="color: #626ee3" class="mr-2">
+									<%= answer.answeredBy %>
+								</a>
+								<% const options={ year: 'numeric' , month: 'long' , day: 'numeric' }; %>
+								<small class="text-muted">
+									<%= answer.postedDate.toLocaleDateString("en-US", options) %>
+								</small>
+								<div>
+									<% if (login && String(user._id)==String(answer.givenby._id)) { %>
+									<a href="updateanswer/<%= question._id %>/<%= answer._id %>"
+										class="mb-1 mt-1 mr-1 btn text-white btn-sm bg-blue">Update</a>
+									<button href="#myModal" class="trigger-btn mb-1 mt-1 btn text-white btn-sm bg-red"
+										data-toggle="modal">Delete</button>
+									<% } %>
+								</div>
+							</div>
+							<p class="text-muted">Author has
+								<b>
+									<%= answer.givenby.quesAnswered %>
+									<% var ans; %>
+								</b>
+								<% ans=(answer.givenby.quesAnswered> 1) ? "answers" : "answer" %> <%= ans %> and <b>
+									<%= (answer.givenby.score).toFixed(1)%>
+								</b> points.
+							</p>
+
+							<div>
+								<%- answer.answer %>
+							</div>
+							<!-- <hr> -->
+
+						</div>
+					</article>
+					<br>
+					<div class="row">
+						<div class="col">
+							<% var a=answer.likes %>
+							<% var l, d; %>
+							<% var b=answer.dislikes %>
+							<% if (a < 1000) { %>
+							<% l=a; %>
+							<% } else if (a>= 1000 && a < 999999) { %>
+							<% l=(a/1000).toFixed(1) + "K" ; %>
+							<% } else if (a < 999999999) { %>
+							<% l=(a/1000000).toFixed(1) + "M" ; %>
+							<% } else if (a>= 999999999) { %> <% l=(a/1000000000).toFixed(1) + "B" ;
+																										%>
+							<% } %>
+							<% if (b < 1000) { %>
+							<% d=b; %>
+							<% } else if (b>= 1000 && b < 999999) { %>
+							<% d=(b/1000).toFixed(1) + "K" ; %>
+							<% } else if (b < 999999999) { %>
+							<% d=(b/1000000).toFixed(1) + "M" ; %>
+							<% } else if (b>= 999999999)
+																																			{ %> <% d=(b/1000000000).toFixed(1) + "B" ; %>
+							<% } %>
+
+							<!-- <form> -->
+							<% if(login) { %>
+							<% if (user.likedans.includes(answer._id)) {
 																																							%>
-						<a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>"
-							onclick="f(this.name, 'like')" class="btn trans">
-							<i id="ilike-<%= answer._id %>" class="comment-icons text-blue fas fa-thumbs-up mr-1"></i><span
-								class="text-blue" id="like-<%= answer._id %>">
-								<%= l %>
-							</span>
-						</a>
-						<% } else { %>
-						<a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>"
-							onclick="f(this.name, 'l')" class="btn trans">
-							<i id="ilike-<%= answer._id %>" class="comment-icons text-blue far fa-thumbs-up mr-1"></i><span
-								class="text-blue" id="like-<%= answer._id %>">
-								<%= l%>
-							</span>
-						</a>
-						<% } %>
-						<% if
+							<a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>"
+								onclick="f(this.name, 'like')" class="btn trans">
+								<i id="ilike-<%= answer._id %>" class="comment-icons text-blue fas fa-thumbs-up mr-1"></i><span
+									class="text-blue" id="like-<%= answer._id %>">
+									<%= l %>
+								</span>
+							</a>
+							<% } else { %>
+							<a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>"
+								onclick="f(this.name, 'l')" class="btn trans">
+								<i id="ilike-<%= answer._id %>" class="comment-icons text-blue far fa-thumbs-up mr-1"></i><span
+									class="text-blue" id="like-<%= answer._id %>">
+									<%= l%>
+								</span>
+							</a>
+							<% } %>
+							<% if
 																																										(user.dislikedans.includes(answer._id))
 																																										{ %>
-						<a data-toggle="tooltip" data-placement="top" title="Downvote" class="btn trans" name="<%= answer._id %>"
-							onclick="fd(this.name, 'dislike')">
-							<i id="idislike-<%= answer._id %>" class="comment-icons text-red fas fa-thumbs-down mr-2"></i><span
-								class="text-red" id="dislike-<%= answer._id %>">
-								<%= d %>
-							</span>
-						</a>
-						<% } else { %>
-						<a data-toggle="tooltip" data-placement="top" title="Downvote" name="<%= answer._id %>"
-							onclick="fd(this.name, 'd')" class="btn trans">
-							<i id="idislike-<%= answer._id %>" class="comment-icons text-red far fa-thumbs-down mr-1"></i><span
-								class="text-red" id="dislike-<%= answer._id %>">
-								<%= d %>
-							</span>
-						</a>
-						<% } %>
-						<% } else { %>
-
-						<a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>" class="btn trans">
-							<i class="comment-icons text-blue far fa-thumbs-up mr-1"></i><span class="text-blue">
-								<%= l %>
-							</span>
-						</a>
-						<a data-toggle="tooltip" data-placement="top" title="Downvote" name="<%= answer._id %>" class="btn trans">
-							<i class="comment-icons text-red far fa-thumbs-down mr-1"></i><span class="text-red">
-								<%= d %>
-							</span>
-						</a>
-						<% } %>
-
-						<!-- </form> -->
-					</div>
-					<div>
-						<a data-toggle="tooltip" data-placement="left" title="Comments" onclick="commentToogle(this.name)"
-							name="<%= answer._id %>" class="mr-2 btn trans"><i id="comment-<%= answer._id %>"
-								class="comment-icons far fa-comment-alt"></i></a>
-						<a class="float-right btn btn-sm mr-3 bg-red text-white"
-							href="report/<%= question._id %>/<%= answer._id %>">Report</a>
-					</div>
-				</div>
-
-				<div style="display: none" id="comment-section-<%= answer._id  %>" class="mt-3 content-section">
-					<div class="container">
-						<br />
-						<h5>Comments</h5>
-						<form action="/question/answer/comments/<%= question._id %> " method="POST">
-							<div class="form-row">
-								<div class="col">
-									<input class="form-control mr-2 btn-sm" placeholder="Write your comment here." type="text"
-										name="comment" id="" />
-								</div>
-								<div class="col">
-									<button name="commentbtn" type="submit" class="btn bg-blue text-white mybtn btn-sm"
-										value="<%= answer._id %>">Comment</button>
-								</div>
-							</div>
-						</form>
-						<hr />
-
-						<% answer.comments.forEach(comment=> { %>
-						<a style="color: #626ee3" class="mr-2">
-							<%= comment.commentedBy %>
-						</a>
-						<small class="text-muted"></small>
-						<p class="ml-2">
-							<%= comment.comment %>
-						</p>
-						<% }); %>
-
-						<br />
-					</div>
-				</div>
-			</div>
-			<!-- <hr> -->
-			<% }); %>
-			<% } else { %>
-			<% answers.forEach(answer=> { %>
-			<% aid = answer._id %>
-			<% if (String(question.postedby._id)==String(user._id) ) { %>
-
-			<div class="content-section">
-				<article class="media">
-					<img class="rounded-circle article-img" src="/uploads/profilepics/<%= answer.givenby.img.imagefile %>" />
-					<div class="media-body">
-						<div class="article-metadata border-bottom">
-							<a style="color: #626ee3" class="mr-2">
-								<%= answer.answeredBy %>
+							<a data-toggle="tooltip" data-placement="top" title="Downvote" class="btn trans" name="<%= answer._id %>"
+								onclick="fd(this.name, 'dislike')">
+								<i id="idislike-<%= answer._id %>" class="comment-icons text-red fas fa-thumbs-down mr-2"></i><span
+									class="text-red" id="dislike-<%= answer._id %>">
+									<%= d %>
+								</span>
 							</a>
-							<% const options={ year: 'numeric' , month: 'long' , day: 'numeric' }; %>
-							<small class="text-muted">
-								<%= answer.postedDate.toLocaleDateString("en-US", options) %>
-							</small>
-						</div>
-						<p class="text-muted">Author has
-							<b>
-								<%= answer.givenby.quesAnswered %>
-								<% var ans; %>
-							</b>
-							<% ans=(answer.givenby.quesAnswered> 1) ? "answers" : "answer" %> <%= ans %> and
-							<b>
-								<%= (answer.givenby.score).toFixed(1)%>
-							</b> points.
-						</p>
+							<% } else { %>
+							<a data-toggle="tooltip" data-placement="top" title="Downvote" name="<%= answer._id %>"
+								onclick="fd(this.name, 'd')" class="btn trans">
+								<i id="idislike-<%= answer._id %>" class="comment-icons text-red far fa-thumbs-down mr-1"></i><span
+									class="text-red" id="dislike-<%= answer._id %>">
+									<%= d %>
+								</span>
+							</a>
+							<% } %>
+							<% } else { %>
 
+							<a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>" class="btn trans">
+								<i class="comment-icons text-blue far fa-thumbs-up mr-1"></i><span class="text-blue">
+									<%= l %>
+								</span>
+							</a>
+							<a data-toggle="tooltip" data-placement="top" title="Downvote" name="<%= answer._id %>" class="btn trans">
+								<i class="comment-icons text-red far fa-thumbs-down mr-1"></i><span class="text-red">
+									<%= d %>
+								</span>
+							</a>
+							<% } %>
+
+							<!-- </form> -->
+						</div>
 						<div>
-							<%- answer.answer %>
+							<a data-toggle="tooltip" data-placement="left" title="Comments" onclick="commentToogle(this.name)"
+								name="<%= answer._id %>" class="mr-2 btn trans"><i id="comment-<%= answer._id %>"
+									class="comment-icons far fa-comment-alt"></i></a>
+							<a class="float-right btn btn-sm mr-3 bg-red text-white"
+								href="report/<%= question._id %>/<%= answer._id %>">Report</a>
 						</div>
 					</div>
-				</article>
-			</div>
 
-			<% } else if (String(user._id)==String(answer.givenby._id)) { %>
-			<div class="content-section">
-				<article class="media">
-					<img class="rounded-circle article-img" src="/uploads/profilepics/<%= answer.givenby.img.imagefile %>" />
-					<div class="media-body">
-						<div class="article-metadata border-bottom">
+					<div style="display: none" id="comment-section-<%= answer._id  %>" class="mt-3 content-section">
+						<div class="container">
+							<br />
+							<h5>Comments</h5>
+							<form action="/question/answer/comments/<%= question._id %> " method="POST">
+								<div class="form-row">
+									<div class="col">
+										<input class="form-control mr-2 btn-sm" placeholder="Write your comment here." type="text"
+											name="comment" id="" />
+									</div>
+									<div class="col">
+										<button name="commentbtn" type="submit" class="btn bg-blue text-white mybtn btn-sm"
+											value="<%= answer._id %>">Comment</button>
+									</div>
+								</div>
+							</form>
+							<hr />
+
+							<% answer.comments.forEach(comment=> { %>
 							<a style="color: #626ee3" class="mr-2">
-								<%= answer.answeredBy %>
+								<%= comment.commentedBy %>
 							</a>
-							<% const options={ year: 'numeric' , month: 'long' , day: 'numeric' }; %>
-							<small class="text-muted">
-								<%= answer.postedDate.toLocaleDateString("en-US", options) %>
-							</small>
+							<small class="text-muted"></small>
+							<p class="ml-2">
+								<%= comment.comment %>
+							</p>
+							<% }); %>
+
+							<br />
+						</div>
+					</div>
+				</div>
+				<% }); %>
+				<% } else { %>
+				<% answers.forEach(answer=> { %>
+				<% aid = answer._id %>
+				<% if (String(question.postedby._id)==String(user._id) ) { %>
+
+				<div class="content-section">
+					<article class="media">
+						<img class="rounded-circle article-img" src="/uploads/profilepics/<%= answer.givenby.img.imagefile %>" />
+						<div class="media-body">
+							<div class="article-metadata border-bottom">
+								<a style="color: #626ee3" class="mr-2">
+									<%= answer.answeredBy %>
+								</a>
+								<% const options={ year: 'numeric' , month: 'long' , day: 'numeric' }; %>
+								<small class="text-muted">
+									<%= answer.postedDate.toLocaleDateString("en-US", options) %>
+								</small>
+							</div>
+							<p class="text-muted">Author has
+								<b>
+									<%= answer.givenby.quesAnswered %>
+									<% var ans; %>
+								</b>
+								<% ans=(answer.givenby.quesAnswered> 1) ? "answers" : "answer" %> <%= ans %> and
+								<b>
+									<%= (answer.givenby.score).toFixed(1)%>
+								</b> points.
+							</p>
+
 							<div>
-								<% if (login && String(user._id)==String(answer.givenby._id)) { %>
-								<button class="mb-1 mt-1 mr-1 btn text-white btn-sm bg-blue">Update</button>
-								<button href="#myModal" class="trigger-btn mb-1 mt-1 btn text-white btn-sm bg-red"
-									data-toggle="modal">Delete</button>
-								<% } %>
+								<%- answer.answer %>
 							</div>
 						</div>
-						<p class="text-muted">Author has
-							<b>
-								<%= answer.givenby.quesAnswered %>
-								<% var ans; %>
-							</b>
-							<% ans=(answer.givenby.quesAnswered> 1) ? "answers" : "answer" %> <%= ans %> and
-							<b>
-								<%= (answer.givenby.score).toFixed(1)%>
-							</b> points
-						</p>
+					</article>
+				</div>
 
-						<div>
-							<%- answer.answer %>
+				<% } else if (String(user._id)==String(answer.givenby._id)) { %>
+				<div class="content-section">
+					<article class="media">
+						<img class="rounded-circle article-img" src="/uploads/profilepics/<%= answer.givenby.img.imagefile %>" />
+						<div class="media-body">
+							<div class="article-metadata border-bottom">
+								<a style="color: #626ee3" class="mr-2">
+									<%= answer.answeredBy %>
+								</a>
+								<% const options={ year: 'numeric' , month: 'long' , day: 'numeric' }; %>
+								<small class="text-muted">
+									<%= answer.postedDate.toLocaleDateString("en-US", options) %>
+								</small>
+								<div>
+									<% if (login && String(user._id)==String(answer.givenby._id)) { %>
+									<button class="mb-1 mt-1 mr-1 btn text-white btn-sm bg-blue">Update</button>
+									<button href="#myModal" class="trigger-btn mb-1 mt-1 btn text-white btn-sm bg-red"
+										data-toggle="modal">Delete</button>
+									<% } %>
+								</div>
+							</div>
+							<p class="text-muted">Author has
+								<b>
+									<%= answer.givenby.quesAnswered %>
+									<% var ans; %>
+								</b>
+								<% ans=(answer.givenby.quesAnswered> 1) ? "answers" : "answer" %> <%= ans %> and
+								<b>
+									<%= (answer.givenby.score).toFixed(1)%>
+								</b> points
+							</p>
+
+							<div>
+								<%- answer.answer %>
+							</div>
+							<!-- <hr> -->
+
 						</div>
-						<!-- <hr> -->
+					</article>
+				</div>
+				<% } %>
+				<% }); %>
+				<% } %>
+			</div>
 
+
+			<% if(question.isPrivate==false) { %>
+			<div class="col-md-3">
+				<% if(question.isPrivate==false){%>
+				<div class="">
+					<h6>Related Questions</h6>
+					<hr />
+
+					<% rel_ques.forEach(rel=> { %>
+					<a href="/question/<%= rel._id %>" style="width: 100%; font-size: 15px; font-weight: normal;"
+						class="cat-font">
+						<%= rel.ques %>
+					</a><br /><br />
+					<% }) %>
+				</div>
+				<% } %>
+			</div>
+			<% } %>
+		</div>
+		<br />
+
+		<!-- Modal -->
+		<div id="myModal" class="modal fade">
+			<div class="modal-dialog modal-confirm">
+				<div class="modal-content">
+					<div class="modal-header flex-column">
+
+						<h4 class="modal-title w-100">Are you sure?</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
-				</article>
-			</div>
-			<% } %>
-			<% }); %>
-			<% } %>
-		</div>
-
-
-		<% if(question.isPrivate==false) { %>
-		<div class="col-md-3">
-			<% if(question.isPrivate==false){%>
-			<div class="">
-				<h6>Related Questions</h6>
-				<hr />
-
-				<% rel_ques.forEach(rel=> { %>
-				<a href="/question/<%= rel._id %>" style="width: 100%; font-size: 15px; font-weight: normal;" class="cat-font">
-					<%= rel.ques %>
-				</a><br /><br />
-				<% }) %>
-			</div>
-			<% } %>
-		</div>
-		<% } %>
-	</div>
-	<br />
-
-	<!-- Modal -->
-	<div id="myModal" class="modal fade">
-		<div class="modal-dialog modal-confirm">
-			<div class="modal-content">
-				<div class="modal-header flex-column">
-
-					<h4 class="modal-title w-100">Are you sure?</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				</div>
-				<div class="modal-body">
-					<p>Do you really want to delete these records? This process cannot be undone.</p>
-				</div>
-				<div class="modal-footer justify-content-center">
-					<button type="button" class="text-white mybtn btn bg-purple" data-dismiss="modal">Cancel</button>
-					<a href="delete/<%= question._id %>/<%= aid %>" type="button" class="text-white mybtn btn bg-red">Delete</a>
+					<div class="modal-body">
+						<p>Do you really want to delete these records? This process cannot be undone.</p>
+					</div>
+					<div class="modal-footer justify-content-center">
+						<button type="button" class="text-white mybtn btn bg-purple" data-dismiss="modal">Cancel</button>
+						<a href="delete/<%= question._id %>/<%= aid %>" type="button" class="text-white mybtn btn bg-red">Delete</a>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 
 </main>

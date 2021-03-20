@@ -10,7 +10,6 @@ const answerSchema = new mongoose.Schema({
 	likes: { type: Number, default: 0 },
 	dislikes: { type: Number, default: 0 },
 	reasons: [reportSchema.reportSchema],
-	// userimg: { type: mongoose.Schema.Types.ObjectId, ref: "Image" },
 	reportedCount: { type: Number, default: 0 },
 	postedDate: { type: Date, default: Date.now },
 	comments: [commentSchema.commentSchema],
