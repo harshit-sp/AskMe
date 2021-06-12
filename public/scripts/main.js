@@ -46,10 +46,26 @@ function ansLikeDislike(ansId, type, val) {
 		dataType: "json",
 		data: { ansId: ansId, type: type, val: val },
 	}).done((data) => {
-		$("#" + type + "-" + ansId).text(data.result);
+		$("#" + type + "-" + ansId).text(data.result[0]);
 		console.log(data.change);
 		if (data.change) {
-			location.reload();
+			// location.reload();
+			// console.log(data.result);
+			if (type == "like") {
+				$("#ilike-" + ansId).addClass("fas");
+				$("#ilike-" + ansId).removeClass("far");
+				$("#idislike-" + ansId).addClass("far");
+				$("#idislike-" + ansId).removeClass("fas");
+				$("#dislike-" + ansId).text(data.result[1]);
+				dval["" + ansId] = -dval["" + ansId];
+			} else {
+				$("#ilike-" + ansId).addClass("far");
+				$("#ilike-" + ansId).removeClass("fas");
+				$("#idislike-" + ansId).addClass("fas");
+				$("#idislike-" + ansId).removeClass("far");
+				$("#like-" + ansId).text(data.result[1]);
+				lval["" + ansId] = -lval["" + ansId];
+			}
 		}
 	});
 }
@@ -137,7 +153,7 @@ function f(ansId, type) {
 	}
 	ansLikeDislike(ansId, "like", lval[ansIdStr]);
 	lval[ansIdStr] = -lval[ansIdStr];
-	console.log(lval);
+	// console.log(lval);
 }
 
 // var dval = -1;
@@ -175,7 +191,7 @@ function fd(ansId, type) {
 		ansLikeDislike(ansId, "dislike", dval[ansIdStr]);
 		dval[ansIdStr] = -dval[ansIdStr];
 	}
-	console.log(dval);
+	// console.log(dval);
 }
 
 // Search Functionality
@@ -202,6 +218,37 @@ $(function () {
 				$("#searchQues").val(ui.item.label);
 				$("#searchBtn").val(ui.item.id);
 			}
+
+			window.location.href = "question/" + ui.item.id;
+		},
+	});
+});
+
+$(function () {
+	$("#question").autocomplete({
+		source: function (req, res) {
+			$.ajax({
+				url: "/search/",
+				dataType: "jsonp",
+				type: "GET",
+				data: req,
+				success: function (data) {
+					// console.log(data);
+					res(data);
+				},
+				error: function (err) {
+					console.log(err);
+				},
+			});
+		},
+		minLength: 1,
+		select: function (event, ui) {
+			if (ui.item) {
+				$("#searchQues").val(ui.item.label);
+				$("#searchBtn").val(ui.item.id);
+			}
+
+			window.location.href = "question/" + ui.item.id;
 		},
 	});
 });

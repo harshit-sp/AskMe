@@ -45,7 +45,7 @@
                                 <p class="text-muted">Author has <b>
                                     <%= answer.givenby.quesAnswered %>
                                     <% var ans; %>
-                                </b><% ans = (answer.givenby.quesAnswered > 1) ? "answers" : "answer" %> <%= ans %>  and <b> <%= (answer.givenby.score).toFixed(1)%></b> score out of <b>5.0</b></p>
+                                </b><% ans = (answer.givenby.quesAnswered > 1) ? "answers" : "answer" %> <%= ans %>  and <b> <%= (answer.givenby.score).toFixed(1)%></b></p>
                                 <div>
                                     <%- answer.answer %>
                                 </div>
@@ -53,46 +53,6 @@
                         </article><hr>
                         <div class="row">
                             <div class="col">
-                                <!-- <form> -->
-                                    <% if(login) { %>
-                                        <% if (user.likedans.includes(answer._id)) { %>
-                                            <a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>" onclick="f(this.name, 'like')"
-                                                class="btn trans">
-                                                <i id="ilike-<%= answer._id %>" class="comment-icons text-blue fas fa-thumbs-up mr-1"></i><span class="text-blue"
-                                                    id="like-<%= answer._id %>">
-                                                    <%= answer.likes %>
-                                                </span>
-                                            </a>
-                                        <% } else { %>
-                                            <a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>"
-                                                onclick="f(this.name, 'l')" class="btn trans">
-                                                <i id="ilike-<%= answer._id %>" class="comment-icons text-blue far fa-thumbs-up mr-1"></i><span class="text-blue"
-                                                    id="like-<%= answer._id %>">
-                                                    <%= answer.likes %>
-                                                </span>
-                                            </a>
-                                        <% } %>
-
-                                        <% if (user.dislikedans.includes(answer._id)) { %>
-                                            <a data-toggle="tooltip" data-placement="top" title="Downvote" class="btn trans" name="<%= answer._id %>"
-                                                onclick="fd(this.name, 'dislike')">
-                                                <i id="idislike-<%= answer._id %>" class="comment-icons text-red fas fa-thumbs-down mr-2"></i><span class="text-red"
-                                                    id="dislike-<%= answer._id %>">
-                                                    <%= answer.dislikes %>
-                                                </span>
-                                            </a>
-                                        <% } else { %>
-                                            <a data-toggle="tooltip" data-placement="top" title="Downvote" name="<%= answer._id %>"
-                                                onclick="fd(this.name, 'd')" class="btn trans">
-                                                <i id="idislike-<%= answer._id %>" class="comment-icons text-red far fa-thumbs-down mr-1"></i><span
-                                                    class="text-red" id="dislike-<%= answer._id %>">
-                                                    <%= answer.dislikes %>
-                                                </span>
-                                            </a>
-                                        <% } %>
-
-                                    <% } else { %>
-
                                         <% var a = answer.likes %>
                                         <% var l, d; %>
                                         <% var b = answer.dislikes %>
@@ -117,6 +77,47 @@
                                         <%  d = (b/1000000000).toFixed(1) + "B"; %>
                                         <% } %>
 
+                                <!-- <form> -->
+                                    <% if(login) { %>
+                                        <% if (user.likedans.includes(answer._id)) { %>
+                                            <a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>" onclick="f(this.name, 'like')"
+                                                class="btn trans">
+                                                <i id="ilike-<%= answer._id %>" class="comment-icons text-blue fas fa-thumbs-up mr-1"></i><span class="text-blue"
+                                                    id="like-<%= answer._id %>">
+                                                    <%= l %>
+                                                </span>
+                                            </a>
+                                        <% } else { %>
+                                            <a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>"
+                                                onclick="f(this.name, 'l')" class="btn trans">
+                                                <i id="ilike-<%= answer._id %>" class="comment-icons text-blue far fa-thumbs-up mr-1"></i><span class="text-blue"
+                                                    id="like-<%= answer._id %>">
+                                                    <%= l%>
+                                                </span>
+                                            </a>
+                                        <% } %>
+
+                                        <% if (user.dislikedans.includes(answer._id)) { %>
+                                            <a data-toggle="tooltip" data-placement="top" title="Downvote" class="btn trans" name="<%= answer._id %>"
+                                                onclick="fd(this.name, 'dislike')">
+                                                <i id="idislike-<%= answer._id %>" class="comment-icons text-red fas fa-thumbs-down mr-2"></i><span class="text-red"
+                                                    id="dislike-<%= answer._id %>">
+                                                    <%= d %>
+                                                </span>
+                                            </a>
+                                        <% } else { %>
+                                            <a data-toggle="tooltip" data-placement="top" title="Downvote" name="<%= answer._id %>"
+                                                onclick="fd(this.name, 'd')" class="btn trans">
+                                                <i id="idislike-<%= answer._id %>" class="comment-icons text-red far fa-thumbs-down mr-1"></i><span
+                                                    class="text-red" id="dislike-<%= answer._id %>">
+                                                    <%= d %>
+                                                </span>
+                                            </a>
+                                        <% } %>
+
+                                    <% } else { %>
+
+
                                         <a data-toggle="tooltip" data-placement="top" title="Upvote" name="<%= answer._id %>" class="btn trans">
                                             <i class="comment-icons text-blue far fa-thumbs-up mr-1"></i><span class="text-blue">
                                                 <%= l %>
@@ -124,7 +125,7 @@
                                         </a>
                                         <a data-toggle="tooltip" data-placement="top" title="Downvote" name="<%= answer._id %>"
                                             class="btn trans">
-                                            <i class="comment-icons text-blue far fa-thumbs-down mr-1"></i><span class="text-blue">
+                                            <i class="comment-icons text-red far fa-thumbs-down mr-1"></i><span class="text-red">
                                                 <%= d %>
                                             </span>
                                         </a>

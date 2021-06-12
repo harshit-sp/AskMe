@@ -72,9 +72,9 @@ router.get("/search", (req, res) => {
 	});
 });
 
-router.post("/search", (req, res) => {
-	res.redirect("question/" + req.body.searchbtn);
-});
+// router.post("/search", (req, res) => {
+// 	res.redirect("question/" + req.body.searchbtn);
+// });
 
 // Login config
 router.get("/login", forwardAuthenticated, (req, res) => {
@@ -189,6 +189,20 @@ router.get("/profile", ensureAuthenticated, async (req, res) => {
 		{ _id: req.user._id },
 		{ $set: { totalLikes: likes, totaldisLikes: dislikes } }
 	);
+
+	const user = await User.findOne({ _id: req.user._id });
+
+	let like = user.totalLikes;
+	let dislike = user.totaldisLikes;
+	let quesAnswered = user.quesAnswered;
+	let quesReportedandDeleted = user.quesReportedandDeleted;
+
+	const score =
+		5 * like +
+		10 * quesAnswered -
+		(10 * quesReportedandDeleted + 3 * dislike);
+
+	await User.findOneAndUpdate({ _id: req.user._id }, { score: score });
 
 	const userdata = await User.findOne({ _id: req.user._id }).populate("img");
 	// console.log(userdata);

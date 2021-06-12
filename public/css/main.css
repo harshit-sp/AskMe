@@ -325,14 +325,12 @@ a.foot-l:hover:before {
 }
 
 #search-field {
-	/* min-width: 100px; */
 	padding: 5px;
 	z-index: 2147483647;
 }
 
 #ui-id-1 {
 	z-index: 9999;
-	width: fit-content;
-	font-family: "Open Sans", sans-serif;
+	font-family: "Ubuntu", sans-serif;
 	border-radius: 4px;
 }
