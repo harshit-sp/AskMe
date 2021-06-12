@@ -273,7 +273,7 @@ router.post("/report/:qid", async (req, res) => {
 
 	const rr = ques.reasonsQ;
 
-	rr.forEach((r) => {
+	rr.forEach(r => {
 		if (String(r.reportedby) == String(req.user._id)) {
 			execute = false;
 			console.log("rrrr-e", String(r.reportedby), String(req.user._id));
@@ -341,7 +341,7 @@ router.post("/report/:qid/:id", async (req, res) => {
 
 	const rr = ans.reasons;
 
-	rr.forEach((r) => {
+	rr.forEach(r => {
 		if (String(r.reportedby) == String(req.user._id)) {
 			execute = false;
 			req.flash("error_msg", "You can report only once.");

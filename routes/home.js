@@ -38,8 +38,11 @@ router.get("/", async (req, res) => {
 		path: "postedby",
 		populate: { path: "img" },
 	});
-	// console.log(questions);
+
 	const categories = await Category.find({}).sort({ categoryName: 1 });
+
+	// console.log(questions);
+
 	res.render("home", {
 		questions: questions,
 		category: "All",
@@ -51,7 +54,6 @@ router.get("/", async (req, res) => {
 // Search config
 router.get("/search", (req, res) => {
 	var regex = new RegExp(req.query["term"], "i");
-	console.log(regex);
 
 	var questions = Question.find(
 		{ $and: [{ isPrivate: false }, { ques: regex }] },
@@ -66,7 +68,7 @@ router.get("/search", (req, res) => {
 		var result = [];
 		if (!err) {
 			if (data && data.length && data.length > 0) {
-				data.forEach((que) => {
+				data.forEach(que => {
 					let obj = {
 						id: que._id,
 						label: que.ques,
@@ -169,7 +171,7 @@ router.post("/register", (req, res) => {
 			email,
 		});
 	} else {
-		User.findOne({ email: email }).then((user) => {
+		User.findOne({ email: email }).then(user => {
 			if (user) {
 				errors.push({ msg: "Email is already registered." });
 				res.render("register", {
@@ -189,7 +191,7 @@ router.post("/register", (req, res) => {
 						});
 						newUser
 							.save()
-							.then(async (user) => {
+							.then(async user => {
 								const i = new Image({ foruser: user._id });
 								i.save();
 								// console.log(user);
@@ -202,7 +204,7 @@ router.post("/register", (req, res) => {
 								);
 								res.redirect("/login");
 							})
-							.catch((err) => console.log(err));
+							.catch(err => console.log(err));
 					});
 				});
 			}
@@ -225,7 +227,7 @@ router.get("/profile", ensureAuthenticated, async (req, res) => {
 	let likes = 0;
 	let dislikes = 0;
 
-	ans.forEach((a) => {
+	ans.forEach(a => {
 		likes += a.likes;
 		dislikes += a.dislikes;
 	});
@@ -311,7 +313,7 @@ router.post(
 		}
 
 		if (skills) {
-			var skill = skills.split(",").map((item) => item.trim());
+			var skill = skills.split(",").map(item => item.trim());
 			await User.findByIdAndUpdate({ _id: req.user._id }, { skills: skill });
 		}
 
@@ -341,7 +343,7 @@ router.get("/askquestion", ensureAuthenticated, blockAuth, async (req, res) => {
 router.post("/askquestion", async (req, res) => {
 	// console.log(req.body);
 	const { question, tags, categoryid } = req.body;
-	var tag = tags.split(",").map((item) => item.trim());
+	var tag = tags.split(",").map(item => item.trim());
 
 	// console.log({ question, tags, categoryid });
 	const cat = await Category.find({ _id: categoryid });
