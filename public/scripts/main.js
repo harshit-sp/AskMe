@@ -219,7 +219,7 @@ $(function () {
 				$("#searchBtn").val(ui.item.id);
 			}
 
-			window.location.href = "question/" + ui.item.id;
+			window.open("/question/" + ui.item.id);
 		},
 	});
 });
@@ -233,7 +233,6 @@ $(function () {
 				type: "GET",
 				data: req,
 				success: function (data) {
-					// console.log(data);
 					res(data);
 				},
 				error: function (err) {
@@ -247,8 +246,7 @@ $(function () {
 				$("#searchQues").val(ui.item.label);
 				$("#searchBtn").val(ui.item.id);
 			}
-
-			window.location.href = "question/" + ui.item.id;
+			window.location.href = "/question/" + ui.item.id;
 		},
 	});
 });

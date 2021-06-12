@@ -17,6 +17,8 @@ const userSchema = new mongoose.Schema({
 	quesPosted: { type: Number, default: 0 },
 	quesReportedandDeleted: { type: Number, default: 0 },
 	quesAnswered: { type: Number, default: 0 },
+	isBlocked: { type: Boolean, default: false },
+	blockedTime: { type: Date },
 });
 
 const User = mongoose.model("User", userSchema);

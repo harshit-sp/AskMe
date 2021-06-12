@@ -181,10 +181,7 @@ router.get("/answer/:type/:id/:val", async (req, res) => {
 				{ _id: req.user._id },
 				{ $pull: { dislikedans: id } }
 			);
-			await Answer.findOneAndUpdate(
-				{ _id: id },
-				{ $inc: { dislikes: -1 } }
-			);
+			await Answer.findOneAndUpdate({ _id: id }, { $inc: { dislikes: -1 } });
 			change = true;
 		}
 
@@ -232,7 +229,76 @@ router.get("/answer/:type/:id/:val", async (req, res) => {
 	res.status(200).send({ result: result, change: change });
 });
 
-// Report config
+// Report config - question
+router.get("/report/:qid", ensureAuthenticated, async (req, res) => {
+	const ques = await Question.findOne({ _id: req.params.qid });
+
+	if (String(ques.postedby) == String(req.user._id)) {
+		req.flash("error_msg", "You cannot report your own question.");
+
+		res.redirect("/question/" + req.params.qid);
+	}
+	const rr = ques.reasonsQ;
+
+	rr.forEach((r) => {
+		execute = false;
+		if (String(r.reportedby) == String(req.user._id)) {
+			req.flash("error_msg", "You can report only once.");
+
+			res.redirect("/question/" + req.params.qid);
+		}
+	});
+
+	res.render("report", {
+		title: "Report",
+		qid: req.params.qid,
+		type: "question",
+	});
+});
+
+router.post("/report/:qid", async (req, res) => {
+	// console.log("question reported");
+
+	const ques = await Question.findOne({ _id: req.params.qid });
+	let execute = true;
+
+	if (String(ques.postedby) == String(req.user._id)) {
+		execute = false;
+		req.flash("error_msg", "You cannot report your own question.");
+
+		res.redirect("/question/" + req.params.qid);
+	}
+
+	const rr = ques.reasonsQ;
+
+	rr.forEach((r) => {
+		if (String(r.reportedby) == String(req.user._id)) {
+			execute = false;
+			console.log("rrrr-e", String(r.reportedby), String(req.user._id));
+			req.flash("error_msg", "You can report only once.");
+
+			res.redirect("/question/" + req.params.qid);
+		}
+	});
+
+	if (execute) {
+		const reason = new Report({
+			reportedby: req.user._id,
+			report: req.body.report,
+		});
+
+		// await reason.save();
+
+		await Question.findByIdAndUpdate(
+			{ _id: req.params.qid },
+			{ $push: { reasonsQ: reason }, $inc: { reportedCountQ: 1 } }
+		);
+	}
+
+	res.redirect("/question/" + req.params.qid);
+});
+
+// Report config - answer
 router.get("/report/:qid/:id", ensureAuthenticated, async (req, res) => {
 	const ans = await Answer.findOne({ _id: req.params.id });
 
@@ -241,10 +307,21 @@ router.get("/report/:qid/:id", ensureAuthenticated, async (req, res) => {
 
 		res.redirect("/question/" + req.params.qid);
 	}
+	const rr = ans.reasons;
+
+	rr.forEach((r) => {
+		execute = false;
+		if (String(r.reportedby) == String(req.user._id)) {
+			req.flash("error_msg", "You can report only once.");
+
+			res.redirect("/question/" + req.params.qid);
+		}
+	});
 	res.render("report", {
 		title: "Report",
 		id: req.params.id,
 		qid: req.params.qid,
+		type: "answer",
 	});
 });
 
@@ -263,8 +340,8 @@ router.post("/report/:qid/:id", async (req, res) => {
 	const rr = ans.reasons;
 
 	rr.forEach((r) => {
-		execute = false;
 		if (String(r.reportedby) == String(req.user._id)) {
+			execute = false;
 			req.flash("error_msg", "You can report only once.");
 
 			res.redirect("/question/" + req.params.qid);
@@ -277,7 +354,7 @@ router.post("/report/:qid/:id", async (req, res) => {
 			report: req.body.report,
 		});
 
-		await reason.save();
+		// await reason.save();
 
 		await Answer.findByIdAndUpdate(
 			{ _id: req.params.id },

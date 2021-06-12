@@ -58,51 +58,68 @@ router.post("/", async (req, res) => {
 
 router.get("/manage", adminAuthenticated, async (req, res) => {
 	const answers = await Answer.find({ reportedCount: { $gt: 0 } });
+	const questions = await Question.find({ reportedCountQ: { $gt: 0 } });
 	// console.log(answers);
-	res.render("managereport", { title: "Manage Reports", answers: answers });
+	res.render("managereport", {
+		title: "Manage Reports",
+		answers: answers,
+		questions: questions,
+	});
 });
 
-router.post("/delete/:id", async (req, res) => {
-	const ans = await Answer.findOne({ _id: req.params.id });
-	// console.log("ans", ans);
+router.post("/delete/:type/:id", async (req, res) => {
+	if (req.params.type == "ans") {
+		const ans = await Answer.findOne({ _id: req.params.id });
+		const user = ans.givenby;
+		await User.findOneAndUpdate(
+			{ __id: ans.givenby },
+			{
+				$set: {
+					$dec: { totallikes: ans.likes, totaldisLikes: ans.dislikes },
+				},
+			}
+		);
 
-	await User.findOneAndUpdate(
-		{ __id: ans.givenby },
-		{
-			$set: {
-				$dec: { totallikes: ans.likes, totaldisLikes: ans.dislikes },
-			},
-		}
-	);
+		let a = await User.findOne({ _id: ans.givenby });
+		await User.findOneAndUpdate(
+			{ _id: ans.givenby },
+			{ $inc: { quesReportedandDeleted: 1 } }
+		);
+		a = await User.findOne({ _id: ans.givenby });
 
-	let a = await User.findOne({ _id: ans.givenby });
-	console.log(a);
-	await User.findOneAndUpdate(
-		{ _id: ans.givenby },
-		{ $inc: { quesReportedandDeleted: 1 } }
-	);
-	a = await User.findOne({ _id: ans.givenby });
+		await Question.findByIdAndUpdate(
+			{ _id: ans.ques },
+			{ $pull: { ansId: ans._id } }
+		);
 
-	await Question.findByIdAndUpdate(
-		{ _id: ans.ques },
-		{ $pull: { ansId: ans._id } }
-	);
+		await Answer.findByIdAndDelete({ _id: req.params.id });
 
-	await Answer.findByIdAndDelete({ _id: req.params.id });
+		const user1 = await User.findOne({ _id: user });
+		// console.log(req.user._id, req.user.username);
 
-	const user = await User.findOne({ _id: req.user._id });
+		let like = user1.totalLikes;
+		let dislike = user1.totaldisLikes;
+		let quesAnswered = user1.quesAnswered;
+		let quesReportedandDeleted = user1.quesReportedandDeleted;
 
-	let like = user.totalLikes;
-	let dislike = user.totaldisLikes;
-	let quesAnswered = user.quesAnswered;
-	let quesReportedandDeleted = user.quesReportedandDeleted;
+		const score =
+			5 * like +
+			10 * quesAnswered -
+			(10 * quesReportedandDeleted + 3 * dislike);
 
-	const score =
-		5 * like +
-		10 * quesAnswered -
-		(10 * quesReportedandDeleted + 3 * dislike);
+		await User.findOneAndUpdate({ _id: user }, { score: score });
+	} else {
+		const ques = await Question.findOne({ _id: req.params.id });
+		const user = ques.postedby;
 
-	await User.findOneAndUpdate({ _id: req.user._id }, { score: score });
+		await Question.findByIdAndDelete({ _id: req.params.id });
+		// console.log("q", ques);
+		// console.log("user", user);
+		await User.findOneAndUpdate(
+			{ _id: user },
+			{ $set: { isBlocked: true, blockedTime: new Date() } }
+		);
+	}
 	res.redirect("/admin/manage");
 });
 
