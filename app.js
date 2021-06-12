@@ -46,6 +46,7 @@ app.use(function (req, res, next) {
 	// console.log(req.user);
 	if (req.isAuthenticated()) {
 		res.locals.admin = req.user.isAdmin;
+		res.locals.user = req.user;
 	}
 	next();
 });
@@ -58,6 +59,9 @@ app.use("/admin", adminRouter);
 
 const questionRouter = require("./routes/question");
 app.use("/question", questionRouter);
+
+const privateSpaceRouter = require("./routes/privatespace");
+app.use("/privatespace", privateSpaceRouter);
 
 // app.get("/", (req, res) => {
 //     res.render("home", {

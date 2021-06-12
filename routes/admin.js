@@ -38,7 +38,7 @@ router.get("/", adminAuthenticated, async (req, res) => {
 var errors = [];
 router.post("/", async (req, res) => {
 	Category.findOne({ categoryName: req.body.newcategory }).then(
-		async (category) => {
+		async category => {
 			if (category) {
 				// console.log(category);
 				errors.push({ msg: "Category already exists." });

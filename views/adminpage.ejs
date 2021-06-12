@@ -1,47 +1,42 @@
 <%- include("partials/header") %>
-
-    <main role="main">
-        <div class="container">
-            <%- include("partials/messages") %>
-            <div>
-                <form action="/admin", method="POST">
-                    <div class="form-row">
-                        <div class="col">
-                            <input required class="form-control" type="text" name="newcategory"
-                         id="newcategory" placeholder="Category Name">
-                        </div>
-                        <div class="col">
-                            <button class="btn bg-purple text-white">+ Add Category</button>
-                            <a href="/admin/manage" class="ml-2 btn bg-red text-white">Manage Reports</a>
-                        </div>
+<main role="main">
+    <div class="container">
+        <%- include("partials/messages") %>
+        <div>
+            <form action="/admin" , method="POST">
+                <div class="form-row">
+                    <div class="col">
+                        <input required class="form-control" type="text" name="newcategory" id="newcategory"
+                            placeholder="Category Name">
                     </div>
-
-                </form>
-
-            </div>
-            <br>
-            <div>
-                <div class="row">
-                    <% icolors = ["#51adef", "#34ed43", "#ef5151"] %>
-                    <% ocolors = ["#257dbc", "#20ad2b", "#c62121"] %>
-                    <% var cc=0; %>
-                    <% cat.forEach(c => { %>
-                        <% cc++; %>
-
-                        <div class="col-md-4">
-                            <div style="padding-left: 0px; background-color: <%= ocolors[cc%3] %>;" class="col-md-12">
-                                <div style="padding-right: 0px; background-color: <%= icolors[cc%3] %>;" class="col-md-12">
-                                    <div class="cat-font col-md-12 content-section text-center">
-                                        <%= c.categoryName %>
-                                    </div>
-                                </div>
+                    <div class="col">
+                        <button class="btn bg-purple text-white">+ Add Category</button>
+                        <a href="/admin/manage" class="ml-2 btn bg-red text-white">Manage Reports</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br>
+        <div>
+            <div class="row">
+                <% icolors = ["#51adef", "#34ed43", "#ef5151"] %>
+                <% ocolors = ["#257dbc", "#20ad2b", "#c62121"] %>
+                <% var cc=0; %>
+                <% cat.forEach(c => { %>
+                <% cc++; %>
+                <div class="col-md-4">
+                    <div style="padding-left: 0px; background-color: <%= ocolors[cc%3] %>;" class="col-md-12">
+                        <div style="padding-right: 0px; background-color: <%= icolors[cc%3] %>;" class="col-md-12">
+                            <div class="cat-font col-md-12 content-section text-center">
+                                <%= c.categoryName %>
                             </div>
                         </div>
-                        <% }); %>
+                    </div>
                 </div>
+                <% }); %>
             </div>
         </div>
-        </div>
-    </main>
-
-    <%- include("partials/footer") %>
+    </div>
+    </div>
+</main>
+<%- include("partials/footer") %>

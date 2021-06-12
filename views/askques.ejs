@@ -1,13 +1,13 @@
 <%- include("partials/header") -%>
-
 <main role="main">
-    <div class="col-md-6 container">
-    <h4>Post Question</h4><hr>
-
+  <div class="col-md-6 container">
+    <h4>Post Question</h4>
+    <hr>
     <form action="/askquestion" method="POST">
       <div class="form-group">
         <label for="question">Your Question</label>
-        <input required name="question" type="text" class="autocomplete form-control" id="question" placeholder="e.g. How to write 'Hello World' in Java?">
+        <input required name="question" type="text" class="autocomplete form-control" id="question"
+          placeholder="e.g. How to write 'Hello World' in Java?">
       </div>
       <div class="form-row">
         <div class="form-group col-md-7">
@@ -19,18 +19,15 @@
           <select required name="categoryid" id="inputState" class="form-control">
             <option>Category</option>
             <% categories.forEach(category => { %>
-
-              <option value="<%= category._id %>"><%= category.categoryName %></option>
+            <option value="<%= category._id %>"><%= category.categoryName %></option>
             <% }) %>
           </select>
         </div>
-
       </div>
-
       <button type="submit" class="mr-2 btn bg-blue text-white mybtn">Post</button>
       <a href="/" class="text-white btn bg-red mybtn">Cancel</a>
     </form>
-    </div>
+  </div>
 </main>
 
 <%- include("partials/footer") -%>

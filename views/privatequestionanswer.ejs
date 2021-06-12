@@ -1,0 +1,45 @@
+<%- include("partials/header") %>
+
+  <main role="main" class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <%- include("partials/messages") %>
+          <article class="media">
+            <div class="media-body">
+
+              <h2>
+                <h3 href="/question/<%=question._id %>">
+                  <%- question.ques %>
+                </h3>
+              </h2>
+            </div>
+
+          </article><br>
+
+          <a class="btn bg-blue text-white mybtn" href="/question/answer/<%= question._id %>">Answer</a>
+          <a class="btn mybtn ml-3 bg-red text-white" href="report/<%= question._id %>">Report</a>
+
+          <hr>
+          <% answers.forEach(answer=> { %>
+
+            <div class="content-section-answers">
+
+              <article class="media">
+                <div class="media-body">
+                  <% if (String(user._id) == String(answer.givenby._id)) %>
+                  <div>
+                    <%- answer.answer %>
+                  </div>
+                  <!-- <hr> -->
+                    <button class="mr-1 btn text-white btn-sm bg-blue">Update</button>
+                    <button class="btn text-white btn-sm bg-red">Delete</button>
+                </div>
+              </article>
+            </div>
+            <% }); %>
+    </div>
+
+
+    <br>
+  </main>
+  <%- include("partials/footer") -%>

@@ -1,4 +1,5 @@
 <%- include("partials/header") -%>
+<<<<<<< HEAD
 
     <main role="main">
 
@@ -44,3 +45,53 @@
 =======
     <%- include("partials/footer") -%>
 >>>>>>> V3
+||||||| 4e7bb2e
+
+    <main role="main">
+
+        <!-- question -->
+
+        <div class="container col-md-8">
+            <%- include("partials/messages") %>
+                <h4>
+                    <%= question.ques %>
+                </h4>
+                <hr>
+
+                <form action="/question/answer/<%= question._id %> " method="POST">
+
+                    <div class="form-group">
+                        <label for="postBody">Answer</label>
+                        <textarea name="postBody" id="myTextarea"></textarea>
+                    </div>
+
+                    <button class="btn text-white mr-2 mybtn bg-blue" type="submit" name="publish" value="<%= question._id %>">Publish</button>
+                    <a href="/" class="text-white btn bg-red mybtn">Cancel</a>
+                </form>
+
+        </div>
+
+    </main>
+
+    <%- include("partials/footer") -%>
+=======
+<main role="main">
+    <div class="container col-md-8">
+        <%- include("partials/messages") %>
+        <h4>
+            <%- question.ques %>
+        </h4>
+        <hr>
+        <form action="/question/answer/<%= question._id %> " method="POST">
+            <div class="form-group">
+                <label for="postBody">Answer</label>
+                <textarea name="postBody" id="myTextarea"></textarea>
+            </div>
+            <button class="btn text-white mr-2 mybtn bg-blue" type="submit" name="publish"
+                value="<%= question._id %>">Publish</button>
+            <a href="/" class="text-white btn bg-red mybtn">Cancel</a>
+        </form>
+    </div><br>
+</main>
+<%- include("partials/footer") -%>
+>>>>>>> V6

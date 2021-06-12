@@ -1,0 +1,44 @@
+<%- include("partials/header") %>
+<main role="main" class="container">
+	<div class="row">
+		<div class="col-md-9">
+			<!-- Alert -->
+			<%- include("partials/toast") %>
+			<!-- Content -->
+			<h1 class="article-title"> </h1>
+
+			<% questions.forEach(question=> { %>
+			<article class="media content-section">
+				<% if(String(user._id) === String(question.postedby._id)) { %>
+				<img class="rounded-circle article-img" src="/uploads/profilepics/<%= question.postedby.img.imagefile %> " />
+				<% } else { %>
+				<img class="rounded-circle article-img" src="/uploads/profilepics/anonymous.png" />
+				<% } %>
+				<div class="media-body">
+					<div class="article-metadata border-bottom">
+
+						<% if(String(user._id) === String(question.postedby._id)) { %>
+						<a style="color: #626ee3" class="mr-2"> <%= question.owner %> </a>
+						<% } else { %>
+						<a style="color: #626ee3" class="mr-2"> Anonymous </a>
+						<% } %>
+					</div>
+					<h5>
+						<a class="article-title" href="question/<%=question._id %>">
+							<%- question.ques %>
+						</a>
+					</h5>
+				</div>
+			</article>
+
+			<% }) %>
+		</div>
+		<div class="col-md-3 text-center">
+			<br />
+			<h5>Ask Your Query Privately.</h5>
+			<br />
+			<a href="/privatespace/privatequestion" class="btn btn-dark"><i class="fas fa-plus"></i> <b>Add One</b></a>
+		</div>
+	</div>
+</main>
+<%- include("partials/footer") -%>
