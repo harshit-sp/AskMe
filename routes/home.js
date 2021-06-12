@@ -1,9 +1,11 @@
+// Imports
 const express = require("express");
 const router = express.Router();
 const validator = require("validator");
-const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+
+// For storing images
 const path = require("path");
 const multer = require("multer");
 const uploadPath = path.join("public", "uploads/profilepics");
@@ -17,113 +19,64 @@ const upload = multer({
 });
 
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
+
+// Models
 const Category = require("../models/Category");
+const User = require("../models/User");
+const Question = require("../models/Question");
+const Image = require("../models/Image");
+const Answer = require("../models/Answer");
+const { config } = require("process");
 
-var user = "HarshitsP";
-
-questions = [
-	{
-		id: 1,
-		postedBy: "HarshitSP",
-		date: new Date("January 1, 2021 03:24:00"),
-		question: "How can I implement 'read more' in my webpage?",
-		answer: [
-			{
-				id: 1,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 2,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-			{
-				id: 3,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 4,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-		],
-	},
-	{
-		id: 2,
-		postedBy: "John Doe",
-		date: new Date("January 11, 2021 03:24:00"),
-		question: "How do I find the date of the Webpage?",
-		answer: [
-			{
-				id: 1,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 2,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-		],
-	},
-	{
-		id: 3,
-		postedBy: "CoreyMS",
-		date: new Date("January 5, 2021 03:24:00"),
-		question: "How do I add text to my existing webpage?",
-		answer: [
-			{
-				id: 1,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 2,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-		],
-	},
-];
-
-var cat = [
-	"Business",
-	"Finance",
-	"Technology",
-	"Mechanical",
-	"Android",
-	"iOS",
-	"News",
-	"Politics",
-];
-
-router.get("/", (req, res) => {
-	// console.log(req.user);
+// Home config
+router.get("/", async (req, res) => {
+	const questions = await Question.find({}).populate({
+		path: "postedby",
+		populate: { path: "img" },
+	});
+	// console.log(questions);
+	const categories = await Category.find({});
 	res.render("home", {
 		questions: questions,
-		category: "Technology",
+		category: "All",
+		categories: categories,
 		title: null,
 	});
 });
 
+// Search config
+router.get("/search", (req, res) => {
+	var regex = new RegExp(req.query["term"], "i");
+
+	var questions = Question.find({ ques: regex }, { ques: 1 })
+		.sort({ updated_at: -1 })
+		.sort({ created_at: -1 })
+		.limit(10);
+
+	questions.exec(function (err, data) {
+		// console.log("data", data);
+		var result = [];
+		if (!err) {
+			if (data && data.length && data.length > 0) {
+				data.forEach((que) => {
+					let obj = {
+						id: que._id,
+						label: que.ques,
+					};
+					result.push(obj);
+				});
+			}
+			// console.log(result);
+			res.jsonp(result);
+		}
+	});
+});
+
+router.post("/search", (req, res) => {
+	res.redirect("question/" + req.body.searchbtn);
+});
+
+// Login config
 router.get("/login", forwardAuthenticated, (req, res) => {
 	res.render("login");
 });
@@ -137,6 +90,7 @@ router.post("/login", (req, res, next) => {
 	})(req, res, next);
 });
 
+// Register config
 router.get("/register", forwardAuthenticated, (req, res) => {
 	res.render("register");
 });
@@ -180,6 +134,7 @@ router.post("/register", (req, res) => {
 				bcrypt.genSalt(10, (err, salt) => {
 					bcrypt.hash(password, salt, (err, hash) => {
 						if (err) throw err;
+
 						const newUser = new User({
 							username: username,
 							email: email,
@@ -187,7 +142,13 @@ router.post("/register", (req, res) => {
 						});
 						newUser
 							.save()
-							.then((user) => {
+							.then(async (user) => {
+								const i = new Image({ foruser: user._id });
+								i.save();
+								// console.log(user);
+								user.img = i;
+								// console.log(user);
+								await user.save();
 								req.flash(
 									"success_msg",
 									"You are now Registered and can Log In."
@@ -202,20 +163,44 @@ router.post("/register", (req, res) => {
 	}
 });
 
+// Logout config
 router.get("/logout", (req, res) => {
 	req.logout();
 	req.flash("success_msg", "You are logged out");
 	res.redirect("/login");
 });
 
-router.get("/about", (req, res) => {
-	res.render("about", { title: "About Us" });
-});
-
+// Profile config
 router.get("/profile", ensureAuthenticated, async (req, res) => {
-	const userdata = await User.findOne({ _id: req.user._id });
+	const ans = await Answer.find({ givenby: req.user._id });
+
+	// console.log(ans);
+	let likes = 0;
+	let dislikes = 0;
+
+	ans.forEach((a) => {
+		likes += a.likes;
+		dislikes += a.dislikes;
+	});
+
+	// console.log(likes);
+
+	await User.findOneAndUpdate(
+		{ _id: req.user._id },
+		{ $set: { totalLikes: likes, totaldisLikes: dislikes } }
+	);
+
+	const userdata = await User.findOne({ _id: req.user._id }).populate("img");
+	// console.log(userdata);
 	const cat = await Category.find({});
-	res.render("profile", { userdata: userdata, cat: cat, title: "Profile" });
+	// const img = await Image.findOne({ _id: userdata.img });
+
+	res.render("profile", {
+		userdata: userdata,
+		cat: cat,
+		title: "Profile",
+		// img: img,
+	});
 });
 
 router.post(
@@ -229,11 +214,20 @@ router.post(
 		const { username, skills, interests, removebtn, skillbtn } = req.body;
 
 		if (filename) {
-			// console.log(filename);
-			await User.findByIdAndUpdate(
-				{ _id: req.user._id },
-				{ img: filename }
+			await Image.findOneAndUpdate(
+				{ _id: req.user.img._id },
+				{ imagefile: filename }
 			);
+
+			// await Question.updateMany(
+			// 	{ postedby: req.user._id },
+			// 	{ userimg: filename }
+			// );
+
+			// await Answer.updateMany(
+			// 	{ givenby: req.user._id },
+			// 	{ userimg: filename }
+			// );
 		}
 
 		if (removebtn) {
@@ -281,5 +275,63 @@ router.post(
 		res.redirect("/profile");
 	}
 );
+
+// Ask Question config
+router.get("/askquestion", ensureAuthenticated, async (req, res) => {
+	const categories = await Category.find({});
+	res.render("askques", { categories: categories, title: "Post Question" });
+});
+
+router.post("/askquestion", async (req, res) => {
+	// console.log(req.body);
+	const { question, tags, categoryid } = req.body;
+	var tag = tags.split(",").map((item) => item.trim());
+
+	// console.log({ question, tags, categoryid });
+	const cat = await Category.find({ _id: categoryid });
+	// console.log("cat", cat[0].categoryName);
+
+	// Inserting Question to the database.
+	// const img = await Image.findOne({ foruser: req.user._id });
+	const newques = new Question({
+		ques: question,
+		postedby: req.user._id,
+		category: cat[0].categoryName,
+		owner: req.user.username,
+		// userimg: img.imagefile,
+	});
+
+	await newques.save();
+
+	Category.findOneAndUpdate(
+		{ _id: categoryid },
+		{ $addToSet: { tags: { $each: tag } } },
+		(err, success) => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log(success);
+			}
+		}
+	);
+
+	await User.findOneAndUpdate(
+		{ _id: req.user._id },
+		{ $inc: { quesPosted: 1 } }
+	);
+
+	req.flash("success_msg", "Your question is posted successfully");
+	res.redirect("/");
+});
+
+// About config
+router.get("/about", (req, res) => {
+	res.render("about", { title: "About Us" });
+});
+
+// Contact config
+router.get("/contact", (req, res) => {
+	res.render("contact", { title: "Contact" });
+});
 
 module.exports = router;

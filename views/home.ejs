@@ -1,54 +1,57 @@
 <%- include("partials/header") -%>
-
-
     <main role="main" class="container">
-
         <div class="row">
-            <!-- Sidebar -->
-
-
             <div class="col-md-3">
-                <div class="category-section">
-                    <form action="/" method="POST">
-                        <button class="text-left btn btn-link category-link">Technology</button><br>
-                        <button class="text-left btn btn-link category-link">Marketing</button><br>
-                        <button class="text-left btn btn-link category-link">Business Strategy</button><br>
-                        <button class="text-left btn btn-link category-link">Finance</button><br>
-                    </form>
-                </div>
+                <br>
+                <br>
+                <hr style="background-color: #f6f9fc;">
+                <% icolors = ["#34ed43", "#ef5151", "#626ee3", "#51adef"] %>
+                <% ocolors = ["#20ad2b", "#c62121", "#5c00e6", "#257dbc"] %>
+                <% var cc=0; %>
+                <% categories.forEach(category => { %>
+                    <% cc++; %>
+                    <div style="padding-left: 0px; background-color: <%= ocolors[cc%4] %>;" class="col-md-12">
+                        <div style="padding-left: 0px; background-color: <%= icolors[cc%4] %>;" class="col-md-12 border-r">
+                            <div class="col-md-12 cat-section text-center">
+                                <a class="cat-font" href="/question/category/<%= category.categoryName %>">
+                                    <%= category.categoryName %>
+                                </a><br>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
             </div>
 
             <div class="col-md-9">
                 <!-- Alert -->
                 <%- include("partials/toast") %>
-                <!-- Content -->
+                    <!-- Content -->
                 <h1 class="article-title">
-                    <%= category %>
+                    <% if(category) { %>
+                        <%= category %>
+                    <% } %>
                 </h1>
-                <hr>
-                <% for (var i=0; i<questions.length; i++) { %>
+                <hr style="background-color: #f6f9fc;">
+                <% questions.forEach(question => { %>
                     <article class="media content-section">
-                        <img class="rounded-circle article-img" src="/media/default_profile.jpg">
+                        <img class="rounded-circle article-img" src="/uploads/profilepics/<%= question.postedby.img.imagefile %>">
                         <div class="media-body">
                             <div class="article-metadata border-bottom">
-                                <a class="mr-2" href="#">
-                                    <%= questions[i].postedBy %>
+                                <a style="color: #626ee3;" class="mr-2">
+                                    <%= question.owner %>
                                 </a>
-                                <small class="text-muted"><%= questions[i].date %></small>
+                                <% const options = { year: 'numeric', month: 'long', day: 'numeric' }; %>
+                                    <small class="text-muted"><%= question.postedDate.toLocaleDateString("en-US", options) %></small>
                             </div>
-                            <h4>
-                                <a class="article-title" href="/question/<%=questions[i].id %>">
-                                    <%= questions[i].question %>
+                            <h5>
+                                <a class="article-title" href="/question/<%=question._id %>">
+                                    <%= question.ques %>
                                 </a>
-                            </h4>
+                            </h5>
                         </div>
                     </article>
-                    <% } %>
+                <% }) %>
             </div>
-
         </div>
-
     </main>
-
-
-    <%- include("partials/footer") -%>
+<%- include("partials/footer") -%>

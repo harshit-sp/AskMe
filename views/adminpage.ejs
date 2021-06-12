@@ -11,11 +11,13 @@
                          id="newcategory" placeholder="Category Name">
                         </div>
                         <div class="col">
-                            <button style="background-color: #9900ff;" class="btn text-white">+ Add Category</button>
+                            <button class="btn bg-purple text-white">+ Add Category</button>
+                            <a href="/admin/manage" class="ml-2 btn bg-red text-white">Manage Reports</a>
                         </div>
                     </div>
 
                 </form>
+
             </div>
             <br>
             <div>
@@ -27,21 +29,18 @@
                         <% cc++; %>
 
                         <div class="col-md-4">
-                        <div style="padding-left: 0px; background-color: <%= ocolors[cc%3] %>;" class="col-md-12">
-                            <div style="padding-right: 0px; background-color: <%= icolors[cc%3] %>;" class="col-md-12">
-                                <div class="col-md-12 content-section text-center">
-                                    <%= c.categoryName %>
+                            <div style="padding-left: 0px; background-color: <%= ocolors[cc%3] %>;" class="col-md-12">
+                                <div style="padding-right: 0px; background-color: <%= icolors[cc%3] %>;" class="col-md-12">
+                                    <div class="cat-font col-md-12 content-section text-center">
+                                        <%= c.categoryName %>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </div>
                         <% }); %>
                 </div>
             </div>
         </div>
-
-
-
         </div>
     </main>
 

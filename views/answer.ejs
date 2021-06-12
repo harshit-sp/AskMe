@@ -4,23 +4,43 @@
 
         <!-- question -->
 
+<<<<<<< HEAD
         <div class="container col-md-6">
             <h4>
                 <%= question.question %>
             </h4>
             <hr>
+||||||| 25bbf1d
+        <div class="container col-md-6">
+            <h4><%= question.question %></h4><hr>
+=======
+        <div class="container col-md-8">
+            <%- include("partials/messages") %>
+                <h4>
+                    <%= question.ques %>
+                </h4>
+                <hr>
+>>>>>>> V3
 
-            <form>
+                <form action="/question/answer/<%= question._id %> " method="POST">
 
-                <div class="form-group">
-                    <label for="postBody">Answer</label>
-                    <textarea class="form-control" name="postBody" id="myTextarea"></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="postBody">Answer</label>
+                        <textarea name="postBody" id="myTextarea"></textarea>
+                    </div>
 
-                <button class="btn btn-primary" type="submit" name="button">Publish</button>
-            </form>
+                    <button class="btn text-white mr-2 mybtn bg-blue" type="submit" name="publish" value="<%= question._id %>">Publish</button>
+                    <a href="/" class="text-white btn bg-red mybtn">Cancel</a>
+                </form>
+
         </div>
 
     </main>
 
+<<<<<<< HEAD
     <%- include("partials/footer") -%>
+||||||| 25bbf1d
+<%- include("partials/footer") -%>
+=======
+    <%- include("partials/footer") -%>
+>>>>>>> V3

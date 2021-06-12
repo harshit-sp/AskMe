@@ -1,14 +1,20 @@
 const mongoose = require("mongoose");
 const commentSchema = require("./Comment");
+const reportSchema = require("./Report");
 
 const answerSchema = new mongoose.Schema({
-	answeredBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+	ques: { type: mongoose.Schema.Types.ObjectId, ref: "Question" },
+	answeredBy: String,
+	givenby: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 	answer: String,
 	likes: { type: Number, default: 0 },
 	dislikes: { type: Number, default: 0 },
+	reasons: [reportSchema.reportSchema],
+	// userimg: { type: mongoose.Schema.Types.ObjectId, ref: "Image" },
 	reportedCount: { type: Number, default: 0 },
+	postedDate: { type: Date, default: Date.now },
 	comments: [commentSchema.commentSchema],
 });
 
-const Answer = mongoose.Schema(Answer, answerSchema);
+const Answer = mongoose.model("Answer", answerSchema);
 module.exports = Answer;

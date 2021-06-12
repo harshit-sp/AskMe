@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema({
-	commentedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+	commentedBy: String,
 	comment: String,
 });
 
-module.exports.commentSchema = commentSchema;
-const Comment = mongoose.Schema(Comment, commentSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 module.exports = Comment;
+module.exports.commentSchema = commentSchema;

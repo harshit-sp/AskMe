@@ -5,108 +5,15 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 
 const Category = require("../models/Category");
+const Answer = require("../models/Answer");
 
 const {
 	ensureAuthenticated,
 	forwardAuthenticated,
 	adminAuthenticated,
 } = require("../config/auth");
-
-var user = "HarshitsP";
-
-questions = [
-	{
-		id: 1,
-		postedBy: "HarshitSP",
-		date: new Date("January 1, 2021 03:24:00"),
-		question: "How can I implement 'read more' in my webpage?",
-		answer: [
-			{
-				id: 1,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 2,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-			{
-				id: 3,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 4,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-		],
-	},
-	{
-		id: 2,
-		postedBy: "John Doe",
-		date: new Date("January 11, 2021 03:24:00"),
-		question: "How do I find the date of the Webpage?",
-		answer: [
-			{
-				id: 1,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 2,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-		],
-	},
-	{
-		id: 3,
-		postedBy: "CoreyMS",
-		date: new Date("January 5, 2021 03:24:00"),
-		question: "How do I add text to my existing webpage?",
-		answer: [
-			{
-				id: 1,
-				answers:
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",
-				answered_by: "John Doe",
-				answered_date: new Date("January 3, 2021 03:24:00"),
-			},
-			{
-				id: 2,
-				answers:
-					"In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				answered_by: "CoreyMS",
-				answered_date: new Date("January 11, 2021 03:24:00"),
-			},
-		],
-	},
-];
-
-// var cat = [
-// 	"Business",
-// 	"Finance",
-// 	"Technology",
-// 	"Mechanical",
-// 	"Android",
-// 	"iOS",
-// 	"News",
-// 	"Politics",
-// ];
+const User = require("../models/User");
+const Question = require("../models/Question");
 
 async function renderAdminPage(req, res, hasError = false, errors = null) {
 	const cat = await Category.find({});
@@ -127,6 +34,7 @@ async function renderAdminPage(req, res, hasError = false, errors = null) {
 router.get("/", adminAuthenticated, async (req, res) => {
 	renderAdminPage(req, res);
 });
+
 var errors = [];
 router.post("/", async (req, res) => {
 	Category.findOne({ categoryName: req.body.newcategory }).then(
@@ -146,6 +54,44 @@ router.post("/", async (req, res) => {
 			}
 		}
 	);
+});
+
+router.get("/manage", adminAuthenticated, async (req, res) => {
+	const answers = await Answer.find({ reportedCount: { $gt: 0 } });
+	// console.log(answers);
+	res.render("managereport", { title: "Manage Reports", answers: answers });
+});
+
+router.post("/delete/:id", async (req, res) => {
+	const ans = await Answer.findOne({ _id: req.params.id });
+	// console.log("ans", ans);
+
+	await User.findOneAndUpdate(
+		{ __id: ans.givenby },
+		{
+			$set: {
+				$dec: { totallikes: ans.likes, totaldisLikes: ans.dislikes },
+			},
+		}
+	);
+
+	let a = await User.findOne({ _id: ans.givenby });
+	console.log(a);
+	await User.findOneAndUpdate(
+		{ _id: ans.givenby },
+		{ $inc: { quesReportedandDeleted: 1 } }
+	);
+	a = await User.findOne({ _id: ans.givenby });
+	console.log(a);
+
+	await Question.findByIdAndUpdate(
+		{ _id: ans.ques },
+		{ $pull: { ansId: ans._id } }
+	);
+
+	await Answer.findByIdAndDelete({ _id: req.params.id });
+
+	res.redirect("/admin/manage");
 });
 
 module.exports = router;
