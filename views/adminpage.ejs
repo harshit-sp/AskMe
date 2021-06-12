@@ -2,15 +2,16 @@
 
     <main role="main">
         <div class="container">
-
+            <%- include("partials/messages") %>
             <div>
-                <form action="">
+                <form action="/admin", method="POST">
                     <div class="form-row">
                         <div class="col">
-                            <input class="form-control" type="text" name="" id="" placeholder="Category Name">
+                            <input required class="form-control" type="text" name="newcategory"
+                         id="newcategory" placeholder="Category Name">
                         </div>
                         <div class="col">
-                            <button class="btn btn-info">+ Add Category</button>
+                            <button style="background-color: #9900ff;" class="btn text-white">+ Add Category</button>
                         </div>
                     </div>
 
@@ -19,12 +20,20 @@
             <br>
             <div>
                 <div class="row">
-
+                    <% icolors = ["#51adef", "#34ed43", "#ef5151"] %>
+                    <% ocolors = ["#257dbc", "#20ad2b", "#c62121"] %>
+                    <% var cc=0; %>
                     <% cat.forEach(c => { %>
-                        <div class="col-md-3">
-                            <p>
-                                <%= c %>
-                            </p>
+                        <% cc++; %>
+
+                        <div class="col-md-4">
+                        <div style="padding-left: 0px; background-color: <%= ocolors[cc%3] %>;" class="col-md-12">
+                            <div style="padding-right: 0px; background-color: <%= icolors[cc%3] %>;" class="col-md-12">
+                                <div class="col-md-12 content-section text-center">
+                                    <%= c.categoryName %>
+                                </div>
+                            </div>
+                        </div>
                         </div>
                         <% }); %>
                 </div>

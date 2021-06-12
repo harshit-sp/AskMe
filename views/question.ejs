@@ -7,7 +7,7 @@
                     <img class="rounded-circle article-img" src="/media/default_profile.jpg">
                     <div class="media-body">
                         <div class="article-metadata">
-                            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">
+                            <a class="mr-2" href="#">
                                 <%= question.postedBy %>
                             </a>
                             <small class="text-muted"><%= question.date %></small>
@@ -32,7 +32,7 @@
                             <img class="rounded-circle article-img" src="/media/default_profile.jpg">
                             <div class="media-body">
                                 <div class="article-metadata border-bottom">
-                                    <a class="mr-2" href="{% url 'user-posts' post.author.username %}">
+                                    <a class="mr-2" href="#">
                                         <%= answer.answered_by %>
                                     </a>
                                     <small class="text-muted"><%= answer.answered_date %></small>
@@ -45,7 +45,7 @@
                         </article>
                         <div class="row">
                             <div class="col">
-                                <form class="">
+                                <form>
                                     <button onclick="toggle(this.name)" class="btn-link btn" name="like" value="<%= answer.id %>"><i id="like" class="comment-icons far fa-thumbs-up"></i></button>
                                     <button onclick="toggle(this.name)" class="btn btn-link" name="dislike" value="<%= answer.id %>"><i id="dislike" class="comment-icons far fa-thumbs-down"></i></button>
                                 </form>

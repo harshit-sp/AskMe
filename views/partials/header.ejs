@@ -18,9 +18,9 @@
 <body>
 
     <header class="site-header">
-        <nav class="navbar fixed-top navbar-expand-lg bg-steel">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-steel">
             <div class="container">
-                <a class="navbar-brand text-light" href="/">Brandname</a>
+                <a class="navbar-brand text-light" href="/">QnA</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -33,7 +33,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/about">About</a>
                         </li>
-                        <% if (user === "HarshitSP") { %>
+                        <% if (login) { %>
                             <li class="nav-item">
                                 <a class="nav-link" href="/askquestion">Ask Question</a>
                             </li>
@@ -44,19 +44,19 @@
                         <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
                     </form>
                     <ul class="navbar-nav mt-2 mt-lg-0">
-                        <% isAdmin = true %>
-                            <% if (user == "HarshitSP" && isAdmin == true) {%>
+                            <!-- <% isAdmin=false %> -->
+                            <% if (login && admin == true) {%>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/addcategory">Admin Page</a></li>
+                                    <a class="nav-link" href="/admin">Admin Page</a></li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/profile">Profile</a></li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Logout</a></li>
-                                <% } else if (user === "HarshitSP") { %>
+                                    <a class="nav-link" href="/logout">Logout</a></li>
+                                <% } else if (login) { %>
                                     <li class="nav-item">
                                         <a class="nav-link" href="/profile">Profile</a></li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Logout</a></li>
+                                        <a class="nav-link" href="/logout">Logout</a></li>
                                     <% } else { %>
                                         <li class="nav-item">
                                             <a class="nav-link" href="/login">Login</a></li>

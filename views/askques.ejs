@@ -1,9 +1,6 @@
 <%- include("partials/header") -%>
 
 <main role="main">
-
-
-
     <div class="col-md-6 container">
     <h4>Post Question</h4><hr>
 
@@ -21,9 +18,9 @@
           <label for="inputState">State</label>
           <select id="inputState" class="form-control">
             <option selected>Category</option>
-            <option>Finance</option>
-            <option>Business Strategy</option>
-            <option>Technology</option>
+            <% categories.forEach(category => { %>
+              <option value=""><%= category.categoryName %></option>
+            <% }) %>
           </select>
         </div>
 

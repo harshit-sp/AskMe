@@ -7,41 +7,63 @@
                 <div class="col-md-4 content-section">
 
                     <div class="text-center">
-                        <img class="mt-4 mb-4 rounded-circle profile-img" src="<%= userdata.img %>">
+                        <img class="mt-4 mb-4 rounded-circle profile-img" src="/uploads/profilepics/<%= userdata.img %>">
                         <h5>
                             <%= userdata.username %>
                         </h5>
                         <p>
                             <% userdata.skills.forEach(skill => { %>
 
-                                <%= skill %>
+                                <span class="badge badge-primary"><%= skill %></span>
 
                                     <% }) %>
                         </p>
                     </div>
                     <hr>
                     <div class="text-center">
+<<<<<<< HEAD
                         <form action="">
                             <div class="text-left form-group">
                                 <label for="profpic">Your Image</label>
                                 <input type="file" class="form-control-file" id="profpic">
                             </div>
+||||||| 8b08419
+                        <form action="">
+=======
+                        <form action="/profile/update" method="POST" enctype="multipart/form-data">
+                            <div class="form-group text-left">
+                                <label for="profilepic">Upload Photo</label>
+                                <input type="file" name="propic" id="profilepic">
+                            </div>
+>>>>>>> V2
                             <div class="form-group">
-                                <input class="form-control" type="text" name="" id="" placeholder="Username">
+                                <input class="form-control" type="text" name="username" placeholder="Username">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="text" name="" id="" placeholder="Skills">
+                                <input class="form-control" type="text" name="skills" placeholder="Skills (Use comma for more than one skills)">
                             </div>
                             <!-- --- Interests --- -->
                             <h6 class="text-left">Interests</h6>
+
+
+
                             <% cat.forEach(c => { %>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                    <label class="form-check-label" for="inlineCheckbox1"><%= c %></label>
+                                    <% if (userdata.interests.includes(c._id)) { %>
+                                        <button type="submit" name="removebtn" value="<%= c._id%>" class="btn badge badge-dark">
+                                            <%= c.categoryName %> <span><i class="fas fa-times"></i></span>
+                                        </button><hr>
+                                    <% } else { %>
+                                        <div>
+                                            <input name="interests" class="form-check-input" type="checkbox" id="interests" value="<%= c._id %>">
+                                            <label class="form-check-label" for="interests"><%= c.categoryName %></label>
+                                        </div>
+                                    <% } %>
+
                                 </div>
                                 <% }); %>
                                     <br><br>
-                                    <button class="btn mybtn btn-warning" type="submit">Update</button>
+                                    <button class="btn mybtn btn-warning" name="update" value="update" type="submit">Update</button>
                         </form>
                     </div>
                 </div>
